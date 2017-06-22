@@ -213,9 +213,11 @@ public class SaleManager {
 
 		item.setAmount(count);
 
+		double actual = price / count;
+		
 		player.getInventory().removeItem(item);
 		
-		Sale sale = new Sale(item, player.getUniqueId().toString(), price, count);
+		Sale sale = new Sale(item, player.getUniqueId().toString(), actual, count);
 	
 		sales.add(sale);
 		
@@ -252,6 +254,8 @@ public class SaleManager {
 			return;
 		}
 
+		double actual = price / count;
+		
 		item.setAmount(count);
 		
 		for(int i = 0; i < player.getInventory().getContents().length; i++) {
@@ -282,7 +286,7 @@ public class SaleManager {
 			
 		}
 
-		Sale sale = new Sale(item, player.getUniqueId().toString(), price, item.getAmount());
+		Sale sale = new Sale(item, player.getUniqueId().toString(), actual, item.getAmount());
 	
 		sales.add(sale);
 		
@@ -315,37 +319,27 @@ public class SaleManager {
 			
 				if(amount <= sale.getCount()) {
 
-					double actual = cost.get(0) * amount; 
-					
-					if(price >= actual) {
-						
-						/*
-						 * The issue is this:
-						 * 
-						 * if I sell 64 coble stone for 64 Gold, does that mean 1 cobble is equal to 1 gold or are we staying with 64
-						 */
-						
 						OfflinePlayer seller = Bukkit.getOfflinePlayer(UUID.fromString(sale.getSeller()));
 						
-						if(balance.getBalance(player.getUniqueId().toString()) >= cost.get(0)) {
+						if(balance.getBalance(player.getUniqueId().toString()) >= (sale.getPrice() * amount)) {
 							
 							if(amount < sale.getCount()) {
 								
 								sale.setCount(sale.getCount() - amount);
 								
-								balance.updateBalance(sale.getSeller(), balance.getBalance(sale.getSeller()) + actual);
+								balance.updateBalance(sale.getSeller(), balance.getBalance(sale.getSeller()) + (sale.getPrice() * amount));
 								
 								if(seller.isOnline()) {
-									((Player) seller).sendMessage(ChatColor.GOLD + "Someone has bought " + amount + " " + item.getType().toString() + " from you for " + sale.getPrice() + " gold. Your balance is " + balance.getBalance(sale.getSeller()));
+									((Player) seller).sendMessage(ChatColor.GOLD + "Someone has bought " + amount + " " + item.getType().toString() + " from you for " + (sale.getPrice() * amount) + " gold. Your balance is " + balance.getBalance(sale.getSeller()));
 								}
 								
 								item.setAmount(amount);
 								
 								player.getInventory().addItem(item);
 								
-								balance.updateBalance(player.getUniqueId().toString(), balance.getBalance(player.getUniqueId().toString()) - actual);
+								balance.updateBalance(player.getUniqueId().toString(), balance.getBalance(player.getUniqueId().toString()) - (sale.getPrice() * amount));
 								
-								player.sendMessage(ChatColor.GRAY + "You have just bought " + amount + " " + item.getType().toString() + " for " + sale.getPrice() + " your new balance is " + balance.getBalance(player.getUniqueId().toString()));
+								player.sendMessage(ChatColor.GRAY + "You have just bought " + amount + " " + item.getType().toString() + " for " + (sale.getPrice() * amount) + " your new balance is " + balance.getBalance(player.getUniqueId().toString()));
 								
 								updatePlayerSales(sale);
 								
@@ -355,14 +349,14 @@ public class SaleManager {
 								
 								sale.setCount(0);
 								
-								balance.updateBalance(sale.getSeller(), balance.getBalance(sale.getSeller()) + actual);
+								balance.updateBalance(sale.getSeller(), balance.getBalance(sale.getSeller()) + (sale.getPrice() * amount));
 								
 								if(seller.isOnline()) {
-									((Player) seller).sendMessage(ChatColor.GOLD + "Someone has bought " + amount + " " + item.getType().toString() + " from you for " + sale.getPrice() + " gold. Your balance is " + balance.getBalance(sale.getSeller()));
+									((Player) seller).sendMessage(ChatColor.GOLD + "Someone has bought " + amount + " " + item.getType().toString() + " from you for " + (sale.getPrice() * amount) + " gold. Your balance is " + balance.getBalance(sale.getSeller()));
 								}
 								player.getInventory().addItem(item);
 								
-								balance.updateBalance(player.getUniqueId().toString(), balance.getBalance(player.getUniqueId().toString()) - actual);
+								balance.updateBalance(player.getUniqueId().toString(), balance.getBalance(player.getUniqueId().toString()) - (sale.getPrice() * amount));
 								
 								player.sendMessage(ChatColor.GRAY + "You have just bought " + amount + " " + item.getType().toString() + " for " + sale.getPrice() + " your new balance is " + balance.getBalance(player.getUniqueId().toString()));
 							
@@ -376,7 +370,6 @@ public class SaleManager {
 							player.sendMessage(ChatColor.RED + "You don't have enough Gold to buy that");
 						}
 						
-					}
 				} else {
 					player.sendMessage(ChatColor.RED + "The market only has " + sale.getCount() + " of " + item.getType().toString());
 				}

@@ -8,6 +8,7 @@ import me.iran.potato.economy.SaleManager;
 import me.iran.potato.economy.balance.Balance;
 import me.iran.potato.economy.balance.cmd.BalanceCommand;
 import me.iran.potato.economy.balance.cmd.DepositCommand;
+import me.iran.potato.economy.balance.cmd.WithdrawCommand;
 import me.iran.potato.economy.cmd.SaleCommands;
 import me.iran.potato.events.AttackPlayerEvent;
 import me.iran.potato.events.DisconnectEvent;
@@ -168,6 +169,7 @@ public class PotatoTeams extends JavaPlugin {
 		getCommand("buy").setExecutor(new SaleCommands(this));
 		getCommand("balance").setExecutor(new BalanceCommand(this));
 		getCommand("deposit").setExecutor(new DepositCommand(this));
+		getCommand("withdraw").setExecutor(new WithdrawCommand(this));
 		/**
 		 * Events
 		 */

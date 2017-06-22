@@ -22,3 +22,5 @@ commands:
     description: get your balance
   deposit:
     description: deposit gold into your account
+  withdraw:
+    description: withdraw gold from your account
