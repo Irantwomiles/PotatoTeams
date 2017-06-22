@@ -1,0 +1,24 @@
+name: PotatoTeams
+main: me.iran.potato.PotatoTeams
+version: 1.0
+author: Irantwomiles
+commands:
+  team:
+    description: create a team
+    aliases: [t, f, faction]
+  spawnloc1:
+    description: set safezone location 1
+  spawnloc2:
+    description: set safezone location 2
+  setspawn:
+    description: set spawn location
+  spawn:
+    description: teleport spawn
+  buy:
+    description: buy item
+  sell:
+    description: sell items
+  balance:
+    description: get your balance
+  deposit:
+    description: deposit gold into your account

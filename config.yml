@@ -1,0 +1,10 @@
+safezone:
+  x1: 430
+  z1: 1388
+  x2: 434
+  z2: 1394
+  world: world
+spawn:
+  x: 0
+  y: 10
+  z: 0
