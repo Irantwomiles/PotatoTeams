@@ -17,7 +17,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 public class PlayerFactionManager {
-
+	
 	private File playerfaction = null;
 	private File file = null;
 	
@@ -338,7 +338,7 @@ public class PlayerFactionManager {
 			faction.getMembers().add(player.getUniqueId().toString());
 		}
 		
-		for(Player p : Bukkit.getOnlinePlayers()) {
+		for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 			if(faction.getMembers().contains(p.getUniqueId().toString())) {
 				p.sendMessage(ChatColor.DARK_AQUA + player.getName() + " has joined the team!");
 			}
@@ -360,7 +360,7 @@ public class PlayerFactionManager {
 			
 			faction.setFf(false);
 			
-			for(Player p : Bukkit.getOnlinePlayers()) {
+			for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 				if(faction.getMembers().contains(p.getUniqueId().toString())) {
 					p.sendMessage(ChatColor.RED + player.getName() + " has turned off friendy fire!");
 				}
@@ -370,7 +370,7 @@ public class PlayerFactionManager {
 			
 			faction.setFf(true);
 			
-			for(Player p : Bukkit.getOnlinePlayers()) {
+			for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 				if(faction.getMembers().contains(p.getUniqueId().toString())) {
 					p.sendMessage(ChatColor.GREEN + player.getName() + " has turned on friendy fire!");
 				}
@@ -402,7 +402,7 @@ public class PlayerFactionManager {
 			faction.getMembers().add(player.getUniqueId().toString());
 		}
 		
-		for(Player p : Bukkit.getOnlinePlayers()) {
+		for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 			if(faction.getMembers().contains(p.getUniqueId().toString())) {
 				p.sendMessage(ChatColor.DARK_AQUA + player.getName() + " has joined the team!");
 			}
@@ -434,7 +434,7 @@ public class PlayerFactionManager {
 		
 		player.sendMessage(ChatColor.RED + "You have left the team!");
 		
-		for(Player p : Bukkit.getOnlinePlayers()) {
+		for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 			if(faction.getMembers().contains(p.getUniqueId().toString())) {
 				p.sendMessage(ChatColor.RED + player.getName() + " has left the team!");
 			}
@@ -455,7 +455,7 @@ public class PlayerFactionManager {
 			
 			faction.setRally(loc);
 			faction.setRallyWorld(loc.getWorld().getName());
-			for(Player p : Bukkit.getOnlinePlayers()) {
+			for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 				if(faction.getMembers().contains(p.getUniqueId().toString())) {
 					p.sendMessage(ChatColor.DARK_AQUA + player.getName() + " has updated the team rally! /team rally");
 				}
@@ -482,7 +482,7 @@ public class PlayerFactionManager {
 			faction.setHq(loc);
 			faction.setHqWorld(loc.getWorld().getName());
 			
-			for(Player p : Bukkit.getOnlinePlayers()) {
+			for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 				if(faction.getMembers().contains(p.getUniqueId().toString())) {
 					p.sendMessage(ChatColor.DARK_AQUA + player.getName() + " has updated the team hq! /team hq");
 				}
@@ -526,7 +526,7 @@ public class PlayerFactionManager {
 			if(faction.getMembers().contains(target.getUniqueId().toString())) {
 				faction.getMembers().remove(target.getUniqueId().toString());
 				
-				for(Player p : Bukkit.getOnlinePlayers()) {
+				for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 					if(faction.getMembers().contains(p.getUniqueId().toString())) {
 						p.sendMessage(ChatColor.RED + player.getName() + " has been kicked from the team by " + player.getName());
 					}
@@ -543,7 +543,7 @@ public class PlayerFactionManager {
 				faction.getMembers().remove(target.getUniqueId().toString());
 				faction.getCaptains().remove(target.getUniqueId().toString());
 				
-				for(Player p : Bukkit.getOnlinePlayers()) {
+				for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 					if(faction.getMembers().contains(p.getUniqueId().toString())) {
 						p.sendMessage(ChatColor.RED + player.getName() + " has been kicked from the team by " + player.getName());
 					}
@@ -568,7 +568,7 @@ public class PlayerFactionManager {
 			
 			faction.setPass(pass);
 			
-			for(Player p : Bukkit.getOnlinePlayers()) {
+			for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 				if(faction.getMembers().contains(p.getUniqueId().toString())) {
 					p.sendMessage(ChatColor.DARK_AQUA + player.getName() + " has updated the password! /team info");
 				}
@@ -594,7 +594,7 @@ public class PlayerFactionManager {
 			if(!faction.isOpen()) {
 				faction.setOpen(true);
 				
-				for(Player p : Bukkit.getOnlinePlayers()) {
+				for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 					if(faction.getMembers().contains(p.getUniqueId().toString())) {
 						p.sendMessage(ChatColor.DARK_AQUA + player.getName() + " has opened the team for the public");
 					}
@@ -602,7 +602,7 @@ public class PlayerFactionManager {
 			} else {
 				faction.setOpen(false);
 				
-				for(Player p : Bukkit.getOnlinePlayers()) {
+				for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 					if(faction.getMembers().contains(p.getUniqueId().toString())) {
 						p.sendMessage(ChatColor.RED + player.getName() + " has closed the team");
 					}
@@ -801,7 +801,7 @@ public class PlayerFactionManager {
 		
 		if(faction.getLeader().equals(player.getUniqueId().toString())) {
 			
-			for(Player p : Bukkit.getOnlinePlayers()) {
+			for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 				if(faction.getMembers().contains(p.getUniqueId().toString())) {
 					p.sendMessage(ChatColor.RED + player.getName() + " has disbanded the team");
 				}
@@ -835,7 +835,7 @@ public class PlayerFactionManager {
 				if(!faction.getCaptains().contains(target.getUniqueId().toString())) {
 					faction.getCaptains().add(target.getUniqueId().toString());
 					
-					for(Player p : Bukkit.getOnlinePlayers()) {
+					for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 						if(faction.getMembers().contains(p.getUniqueId().toString())) {
 							p.sendMessage(ChatColor.DARK_AQUA + player.getName() + " has made " + target.getName() + " captain");
 						}
@@ -868,7 +868,7 @@ public class PlayerFactionManager {
 				if(faction.getCaptains().contains(target.getUniqueId().toString())) {
 					faction.getCaptains().remove(target.getUniqueId().toString());
 					
-					for(Player p : Bukkit.getOnlinePlayers()) {
+					for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 						if(faction.getMembers().contains(p.getUniqueId().toString())) {
 							p.sendMessage(ChatColor.RED + player.getName() + " has demoted " + target.getName());
 						}
