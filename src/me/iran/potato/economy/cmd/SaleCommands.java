@@ -44,142 +44,203 @@ public class SaleCommands implements CommandExecutor {
 				player.sendMessage(ChatColor.RED + "/sell <amount> <item> <price>");
 				return true;
 			}
-			
-			if(args[1].equals(null)) {
-				player.sendMessage(ChatColor.RED + "/sell <amount> <item> <price>");
-				return true;
-			}
-			
-			if(args[1].equalsIgnoreCase("strp2")) {
 
-				Potion potion = new Potion(PotionType.STRENGTH, 2);
-				
-				try {
-					SaleManager.getManager().sellPotion(player, Double.parseDouble(args[2]), potion.toItemStack(1), Integer.parseInt(args[0]));
-					
-				} catch(NumberFormatException e) {
-					player.sendMessage(ChatColor.RED + "/sell <amount> <item> <price>");
-				}
-				
-				return true;
+			//dps2
+
+			Potion potion = null;
+
+			switch(args[1]) {
+
+				case "strp2":
+
+					potion = new Potion(PotionType.STRENGTH, 2);
+
+					try {
+						SaleManager.getManager().sellPotion(player, Double.parseDouble(args[2]), potion.toItemStack(1), Integer.parseInt(args[0]));
+
+					} catch(Exception e) {
+						player.sendMessage(ChatColor.RED + "/sell <amount> <item> <price>");
+					}
+
+					break;
+				case "strp":
+
+					potion = new Potion(PotionType.STRENGTH, 1);
+
+					try {
+						SaleManager.getManager().sellPotion(player, Double.parseDouble(args[2]), potion.toItemStack(1), Integer.parseInt(args[0]));
+
+					} catch(Exception e) {
+						player.sendMessage(ChatColor.RED + "/sell <amount> <item> <price>");
+					}
+
+					break;
+				case "swp2":
+
+					potion = new Potion(PotionType.SPEED, 2);
+
+					try {
+						SaleManager.getManager().sellPotion(player, Double.parseDouble(args[2]), potion.toItemStack(1), Integer.parseInt(args[0]));
+					} catch(Exception e) {
+						player.sendMessage(ChatColor.RED + "/sell <amount> <item> <price>");
+					}
+
+					break;
+				case "swp":
+
+					potion = new Potion(PotionType.SPEED, 1);
+
+					try {
+						SaleManager.getManager().sellPotion(player, Double.parseDouble(args[2]), potion.toItemStack(1), Integer.parseInt(args[0]));
+					} catch(Exception e) {
+						player.sendMessage(ChatColor.RED + "/sell <amount> <item> <price>");
+					}
+
+					break;
+				case "frp1e":
+					potion = new Potion(PotionType.FIRE_RESISTANCE);
+
+					potion.setHasExtendedDuration(true);
+
+					try {
+						SaleManager.getManager().sellPotion(player, Double.parseDouble(args[2]), potion.toItemStack(1), Integer.parseInt(args[0]));
+					} catch(Exception e) {
+						player.sendMessage(ChatColor.RED + "/sell <amount> <item> <price>");
+					}
+
+					break;
+				case "dps2":
+
+					potion = new Potion(PotionType.INSTANT_DAMAGE, 2);
+					potion.setSplash(true);
+
+					try {
+						SaleManager.getManager().sellPotion(player, Double.parseDouble(args[2]), potion.toItemStack(1), Integer.parseInt(args[0]));
+
+					} catch(Exception e) {
+						player.sendMessage(ChatColor.RED + "/sell <amount> <item> <price>");
+					}
+
+					break;
+				case "soup":
+					try {
+						SaleManager.getManager().sellItem(player, Double.parseDouble(args[2]), new ItemStack(Material.MUSHROOM_SOUP, Integer.parseInt(args[0])), Integer.parseInt(args[0]));
+					} catch(Exception e) {
+						player.sendMessage(ChatColor.RED + "/sell <amount> <item> <price>");
+					}
+
+					break;
+
+					default:
+
+						try {
+
+							ItemStack item = new ItemStack(Material.getMaterial(args[1].toUpperCase()), Integer.parseInt(args[0]));
+
+							SaleManager.getManager().sellItem(player, Double.parseDouble(args[2]), item, item.getAmount());
+
+
+
+						} catch(Exception e) {
+							player.sendMessage(ChatColor.RED + "/sell <amount> <item> <price>");
+
+						}
+
+						break;
+
 			}
-			
-			if(args[1].equalsIgnoreCase("swp2")) {
-				
-				Potion potion = new Potion(PotionType.SPEED, 2);
-				
-				try {
-					SaleManager.getManager().sellPotion(player, Double.parseDouble(args[2]), potion.toItemStack(1), Integer.parseInt(args[0]));
-				} catch(NumberFormatException e) {
-					player.sendMessage(ChatColor.RED + "/sell <amount> <item> <price>");
-				}
-				
-				return true;
-			}
-			
-			if(args[1].equalsIgnoreCase("frp1e")) {
-				
-				Potion potion = new Potion(PotionType.FIRE_RESISTANCE);
-				
-				potion.setHasExtendedDuration(true);
-				
-				try {
-					SaleManager.getManager().sellPotion(player, Double.parseDouble(args[2]), potion.toItemStack(1), Integer.parseInt(args[0]));
-				} catch(NumberFormatException e) {
-					player.sendMessage(ChatColor.RED + "/sell <amount> <item> <price>");
-				}
-				
-				return true;
-			}
-			
-			if(args[1].equalsIgnoreCase("soup")) {
-				
-				try {
-					SaleManager.getManager().sellItem(player, Double.parseDouble(args[2]), new ItemStack(Material.MUSHROOM_SOUP, Integer.parseInt(args[0])), Integer.parseInt(args[0]));
-				} catch(NumberFormatException e) {
-					player.sendMessage(ChatColor.RED + "/sell <amount> <item> <price>");
-				}
-				
-				return true;
-			}
-			
-			try {
-				SaleManager.getManager().sellItem(player, Double.parseDouble(args[2]), new ItemStack(Material.getMaterial(args[1].toUpperCase()), Integer.parseInt(args[0])), Integer.parseInt(args[0]));
-			} catch(NumberFormatException e) {
-				player.sendMessage(ChatColor.RED + "/sell <amount> <item> <price>");
-			}
-			
+
+
 		}
-		
+
 		if(cmd.getName().equalsIgnoreCase("buy")) {
 
 			if(args.length < 3) {
 				player.sendMessage(ChatColor.RED + "/buy <amount> <item> <price>");
 				return true;
 			}
-			
-			if(args[1].equalsIgnoreCase("strp2")) {
 
-				Potion potion = new Potion(PotionType.STRENGTH, 2);
-				
-				try {
-					SaleManager.getManager().buyItem(player, potion.toItemStack(Integer.parseInt(args[0])), Double.parseDouble(args[2]), Integer.parseInt(args[0]));
-				} catch(NumberFormatException e) {
-					player.sendMessage(ChatColor.RED + "/buy <amount> <item> <price>");
-				}
-				
-				return true;
-			}
-			
-			if(args[1].equalsIgnoreCase("swp2")) {
+			Potion potion = null;
 
-				Potion potion = new Potion(PotionType.SPEED, 2);
-				
-				try {
-					SaleManager.getManager().buyItem(player, potion.toItemStack(Integer.parseInt(args[0])), Double.parseDouble(args[2]), Integer.parseInt(args[0]));
-				} catch(NumberFormatException e) {
-					player.sendMessage(ChatColor.RED + "/buy <amount> <item> <price>");
-				}
-				
-				return true;
-			}
-			
-			if(args[1].equalsIgnoreCase("frp1e")) {
+			switch(args[1]) {
 
-				Potion potion = new Potion(PotionType.FIRE_RESISTANCE);
-				potion.setHasExtendedDuration(true);
-				
-				try {
-					SaleManager.getManager().buyItem(player, potion.toItemStack(Integer.parseInt(args[0])), Double.parseDouble(args[2]), Integer.parseInt(args[0]));
-				} catch(NumberFormatException e) {
-					player.sendMessage(ChatColor.RED + "/buy <amount> <item> <price>");
-				}
-				
-				return true;
-			}
-			
-			if(args[1].equalsIgnoreCase("soup")) {
+				case "strp2":
+					potion = new Potion(PotionType.STRENGTH, 2);
 
-				try {
-					SaleManager.getManager().buyItem(player, new ItemStack(Material.MUSHROOM_SOUP, Integer.parseInt(args[0])), Double.parseDouble(args[2]), Integer.parseInt(args[0]));
-				} catch(NumberFormatException e) {
-					player.sendMessage(ChatColor.RED + "/buy <amount> <item> <price>");
-				}
-				
-				return true;
+					try {
+						SaleManager.getManager().buyItem(player, potion.toItemStack(Integer.parseInt(args[0])), Double.parseDouble(args[2]), Integer.parseInt(args[0]));
+					} catch(Exception e) {
+						player.sendMessage(ChatColor.RED + "/buy <amount> <item> <price>");
+					}
+					break;
+				case "strp":
+					potion = new Potion(PotionType.STRENGTH, 1);
+
+					try {
+						SaleManager.getManager().buyItem(player, potion.toItemStack(Integer.parseInt(args[0])), Double.parseDouble(args[2]), Integer.parseInt(args[0]));
+					} catch(Exception e) {
+						player.sendMessage(ChatColor.RED + "/buy <amount> <item> <price>");
+					}
+					break;
+				case "swp2":
+					potion = new Potion(PotionType.SPEED, 2);
+
+					try {
+						SaleManager.getManager().buyItem(player, potion.toItemStack(Integer.parseInt(args[0])), Double.parseDouble(args[2]), Integer.parseInt(args[0]));
+					} catch(Exception e) {
+						player.sendMessage(ChatColor.RED + "/buy <amount> <item> <price>");
+					}
+					break;
+				case "swp":
+
+					potion = new Potion(PotionType.SPEED, 1);
+
+					try {
+						SaleManager.getManager().buyItem(player, potion.toItemStack(Integer.parseInt(args[0])), Double.parseDouble(args[2]), Integer.parseInt(args[0]));
+					} catch(Exception e) {
+						player.sendMessage(ChatColor.RED + "/buy <amount> <item> <price>");
+					}
+					break;
+				case "frp12":
+					potion = new Potion(PotionType.FIRE_RESISTANCE);
+					potion.setHasExtendedDuration(true);
+
+					try {
+						SaleManager.getManager().buyItem(player, potion.toItemStack(Integer.parseInt(args[0])), Double.parseDouble(args[2]), Integer.parseInt(args[0]));
+					} catch(Exception e) {
+						player.sendMessage(ChatColor.RED + "/buy <amount> <item> <price>");
+					}
+					break;
+				case "dps2":
+					potion = new Potion(PotionType.INSTANT_DAMAGE, 2);
+					potion.setSplash(true);
+
+					try {
+						SaleManager.getManager().buyItem(player, potion.toItemStack(Integer.parseInt(args[0])), Double.parseDouble(args[2]), Integer.parseInt(args[0]));
+					} catch(Exception e) {
+						player.sendMessage(ChatColor.RED + "/buy <amount> <item> <price>");
+					}
+					break;
+				case "soup":
+					try {
+						SaleManager.getManager().buyItem(player, new ItemStack(Material.MUSHROOM_SOUP, Integer.parseInt(args[0])), Double.parseDouble(args[2]), Integer.parseInt(args[0]));
+					} catch(Exception e) {
+						player.sendMessage(ChatColor.RED + "/buy <amount> <item> <price>");
+					}
+					break;
+
+					default:
+						try {
+							SaleManager.getManager().buyItem(player, new ItemStack(Material.getMaterial(args[1].toUpperCase()), Integer.parseInt(args[0])), Double.parseDouble(args[2]), Integer.parseInt(args[0]));
+						} catch(NumberFormatException e) {
+							player.sendMessage(ChatColor.RED + "/buy <amount> <item> <price>");
+						}
+
+						break;
 			}
-			
-			try {
-				SaleManager.getManager().buyItem(player, new ItemStack(Material.getMaterial(args[1].toUpperCase()), Integer.parseInt(args[0])), Double.parseDouble(args[2]), Integer.parseInt(args[0]));
-			} catch(NumberFormatException e) {
-				player.sendMessage(ChatColor.RED + "/buy <amount> <item> <price>");
-			}
-			
+
 		}
 		
 		return true;
 	}
-
-	
-	
 }

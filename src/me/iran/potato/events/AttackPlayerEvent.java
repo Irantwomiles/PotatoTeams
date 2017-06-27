@@ -11,6 +11,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
+import java.util.Collection;
+
 public class AttackPlayerEvent implements Listener {
 
 	PotatoTeams plugin;
@@ -32,6 +34,11 @@ public class AttackPlayerEvent implements Listener {
 			Player damager = (Player) event.getDamager();
 			
 			PlayerFaction faction = PlayerFactionManager.getManager().getFactionByPlayer(damager);
+
+			if(faction == null) {
+				CollectionsUtil.getCombat().put(player.getName(), 20);
+				CollectionsUtil.getCombat().put(damager.getName(), 20);
+			}
 
 			if (faction != null) {
 
