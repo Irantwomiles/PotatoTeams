@@ -18,11 +18,16 @@ import me.iran.potato.factions.PlayerFactionManager;
 import me.iran.potato.run.TeleportRunnables;
 import me.iran.potato.spawn.SpawnProtection;
 import me.iran.potato.spawn.SpawnProtectionCommands;
+import me.iran.potato.util.CollectionsUtil;
+import me.iran.potato.warps.WarpCommand;
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PotatoTeams extends JavaPlugin {
@@ -109,13 +114,13 @@ public class PotatoTeams extends JavaPlugin {
 		}
 		
 		/**
-		 * PlayerGold folder
+		 * PlayerInfo folder
 		 */
 		
-		file = new File(this.getDataFolder() + "/PlayerGold", "DELETE.yml");
+		file = new File(this.getDataFolder() + "/PlayerInfo", "DELETE.yml");
 		
 		if(!file.exists()) {
-			file = new File(this.getDataFolder() + "/PlayerGold", "DELETE.yml");
+			file = new File(this.getDataFolder() + "/PlayerInfo", "DELETE.yml");
 			
 			YamlConfiguration delete = YamlConfiguration.loadConfiguration(file);
 			
@@ -127,9 +132,8 @@ public class PotatoTeams extends JavaPlugin {
 				e.printStackTrace();
 			}
 			
-			log.sendMessage(ChatColor.GREEN + "[Potato] Generated /PlayerGold folder");
+			log.sendMessage(ChatColor.GREEN + "[Potato] Generated /PlayerInfo folder");
 		}
-		
 		
 		
 		/**
@@ -170,6 +174,8 @@ public class PotatoTeams extends JavaPlugin {
 		getCommand("balance").setExecutor(new BalanceCommand(this));
 		getCommand("deposit").setExecutor(new DepositCommand(this));
 		getCommand("withdraw").setExecutor(new WithdrawCommand(this));
+		getCommand("go").setExecutor(new WarpCommand(this));
+
 		/**
 		 * Events
 		 */
@@ -202,7 +208,6 @@ public class PotatoTeams extends JavaPlugin {
 		PlayerFactionManager.getManager().savePlayerFactions();
 		
 		SaleManager.getManager().saveSales();
-		
 	}
-	
+
 }
