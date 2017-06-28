@@ -495,7 +495,7 @@ public class PlayerFactionManager {
 	}
 	
 	@SuppressWarnings("deprecation")
-	public void kickPlayer(Player player, Player target, Location loc) {
+	public void kickPlayer(Player player, String target) {
 	
 		PlayerFaction faction = getFactionByPlayer(player);
 		
@@ -505,13 +505,13 @@ public class PlayerFactionManager {
 		}
 		
 		//Captains can't kick other captains
-		if(faction.getCaptains().contains(player.getUniqueId().toString()) && faction.getCaptains().contains(target.getUniqueId().toString())) {
+		if(faction.getCaptains().contains(player.getUniqueId().toString()) && faction.getCaptains().contains(target)) {
 			player.sendMessage(ChatColor.RED + "You can't kick other captains, only leaders can!");
 			return;
 		} 
 		
 		//Can't kick leader
-		if(faction.getCaptains().contains(player.getUniqueId().toString()) && faction.getLeader().equals(target.getUniqueId().toString())) {
+		if(faction.getCaptains().contains(player.getUniqueId().toString()) && faction.getLeader().equals(target)) {
 			player.sendMessage(ChatColor.RED + "You can't kick the leader!");
 			return;
 		} 
@@ -519,16 +519,16 @@ public class PlayerFactionManager {
 		//Captain kicking player
 		if(faction.getCaptains().contains(player.getUniqueId().toString()) &&
 				
-				!faction.getLeader().equals(target.getUniqueId().toString()) &&
+				!faction.getLeader().equals(target) &&
 				
-				!faction.getCaptains().contains(target.getUniqueId().toString())) {
+				!faction.getCaptains().contains(target)) {
 			
-			if(faction.getMembers().contains(target.getUniqueId().toString())) {
-				faction.getMembers().remove(target.getUniqueId().toString());
+			if(faction.getMembers().contains(target)) {
+				faction.getMembers().remove(target);
 				
 				for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 					if(faction.getMembers().contains(p.getUniqueId().toString())) {
-						p.sendMessage(ChatColor.RED + player.getName() + " has been kicked from the team by " + player.getName());
+						p.sendMessage(ChatColor.RED + Bukkit.getOfflinePlayer(UUID.fromString(target)).getName() + " has been kicked from the team by " + player.getName());
 					}
 				}
 				return;
@@ -536,16 +536,16 @@ public class PlayerFactionManager {
 		}
 		
 		//Leader kicking a captain
-		if(faction.getLeader().equals(player.getUniqueId().toString()) && faction.getCaptains().contains(target.getUniqueId().toString())) {
+		if(faction.getLeader().equals(player.getUniqueId().toString()) && faction.getCaptains().contains(target)) {
 			
-			if(faction.getMembers().contains(target.getUniqueId().toString())) {
+			if(faction.getMembers().contains(target)) {
 				
-				faction.getMembers().remove(target.getUniqueId().toString());
-				faction.getCaptains().remove(target.getUniqueId().toString());
+				faction.getMembers().remove(target);
+				faction.getCaptains().remove(target);
 				
 				for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 					if(faction.getMembers().contains(p.getUniqueId().toString())) {
-						p.sendMessage(ChatColor.RED + player.getName() + " has been kicked from the team by " + player.getName());
+						p.sendMessage(ChatColor.RED + Bukkit.getOfflinePlayer(UUID.fromString(target)).getName() + " has been kicked from the team by " + player.getName());
 					}
 				}
 				

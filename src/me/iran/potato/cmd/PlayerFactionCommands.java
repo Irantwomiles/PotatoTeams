@@ -4,9 +4,10 @@ import me.iran.potato.PotatoTeams;
 import me.iran.potato.factions.PlayerFaction;
 import me.iran.potato.factions.PlayerFactionManager;
 import me.iran.potato.util.CollectionsUtil;
-import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,6 +15,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
+
+import java.util.UUID;
 
 public class PlayerFactionCommands implements CommandExecutor {
 
@@ -124,7 +127,25 @@ public class PlayerFactionCommands implements CommandExecutor {
 				PlayerFactionManager.getManager().openFaction(player);
 				
 			}
-			
+
+			if(args[0].equalsIgnoreCase("kick")) {
+
+				if(args.length < 2) {
+					player.sendMessage(ChatColor.RED + "/team kick <player>");
+					return true;
+				}
+
+				OfflinePlayer pl = Bukkit.getOfflinePlayer(args[1]);
+
+				if(pl == null) {
+					player.sendMessage(ChatColor.RED + "Couldn't find that player");
+					return true;
+				}
+
+				PlayerFactionManager.getManager().kickPlayer(player, pl.getUniqueId().toString());
+
+			}
+
 			if(args[0].equalsIgnoreCase("setrally") || args[0].equalsIgnoreCase("sr")) {
 				PlayerFactionManager.getManager().setRally(player, player.getLocation());
 			}
