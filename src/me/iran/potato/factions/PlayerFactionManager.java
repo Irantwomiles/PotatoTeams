@@ -576,7 +576,7 @@ public class PlayerFactionManager {
 			
 			return;
 		}
-		
+
 	}
 
 	@SuppressWarnings("deprecation")
@@ -613,7 +613,25 @@ public class PlayerFactionManager {
 			player.sendMessage(ChatColor.RED + "Must be a captain to do this command");
 		}
 	}
-	
+
+	public int getOnlineCount(Player player) {
+		PlayerFaction faction = getFactionByPlayer(player);
+
+		int online = 0;
+
+		if(faction == null) {
+			return 0;
+		}
+
+		for(Player p : Bukkit.getServer().getOnlinePlayers()) {
+			if(faction.getMembers().contains(p.getUniqueId().toString())) {
+				online++;
+			}
+		}
+		return online;
+
+	}
+
 	public void factionInfo(Player player) {
 	
 		PlayerFaction faction = getFactionByPlayer(player);
@@ -622,32 +640,43 @@ public class PlayerFactionManager {
 			player.sendMessage(ChatColor.RED + "You are not in a team! /team create <name>");
 			return;
 		}
-		
-		String onlineSuffix = ChatColor.GRAY + " - Online ";
+
 		String offlineSuffix = ChatColor.GRAY + " - Offline ";
 		
-		String hq = ChatColor.GRAY.toString() + "Not Set - ";
+		String hq = ChatColor.RED.toString() + "Not Set";
 		
 		if(faction.getHq() != null) {
-			hq = ChatColor.GRAY.toString() + "Set - ";
+			hq = ChatColor.GREEN.toString() + "Set";
 		}
 		
-		String rally = ChatColor.GRAY.toString() + " - Not Set";
+		String rally = ChatColor.RED.toString() + "Not Set";
 		
 		if(faction.getRally() != null) {
-			rally = ChatColor.GRAY.toString() + " Set";
+			rally = ChatColor.GREEN.toString() + "Set";
+		}
+
+		String ff = ChatColor.RED.toString() + "Off";
+
+		if(faction.isFf() == true) {
+			rally = ChatColor.GREEN.toString() + "On";
 		}
 		
-		String msg =  ChatColor.DARK_AQUA.toString() + faction.getName() + ChatColor.GRAY + " - [" + faction.getMembers().size() + "/30] - " 
-				+ ChatColor.DARK_AQUA + "Password: " + ChatColor.GRAY + faction.getPass() + "\n- " +
-				ChatColor.DARK_AQUA + "HQ: " + hq + ChatColor.DARK_AQUA + "Rally: " + rally;
-		
+		String msg = " " + " \n" +
+					 ChatColor.GRAY + "***" + ChatColor.DARK_AQUA + faction.getName() + ChatColor.GRAY + "***\n" +
+				     ChatColor.GRAY + "Password: " + ChatColor.RED + faction.getPass() + "\n" +
+				     ChatColor.GRAY + "Headquarters: " + hq + "\n" +
+				     ChatColor.GRAY + "Rally point: " + rally + "\n" +
+				     ChatColor.GRAY + "Friendly Fire: " + ff + "\n" +
+					 ChatColor.GRAY + "Members (" + getOnlineCount(player) + "/" + faction.getMembers().size() + "):";
+
 		player.sendMessage(msg);
-		
+
 		for(String p : faction.getMembers()) {
 			
 			OfflinePlayer pl = Bukkit.getOfflinePlayer(UUID.fromString(p));
-			
+
+			String onlineSuffix = ChatColor.GRAY + " - " + ((int) (((Player) pl).getHealth() / 20 * 100)) + "%";
+
 			String name = ChatColor.GRAY + pl.getName();
 			
 			if(faction.getCaptains().contains(p) || faction.getLeader().equals(p)) {
@@ -655,57 +684,62 @@ public class PlayerFactionManager {
 				name = ChatColor.DARK_AQUA + pl.getName();
 				
 				if(pl.isOnline()) {
-					player.sendMessage(name + onlineSuffix);
+					player.sendMessage("  " + name + onlineSuffix);
 				} else {
-					player.sendMessage(name + offlineSuffix);
+					player.sendMessage("  " + name + offlineSuffix);
 				}
 				
 			} else {
 				if(pl.isOnline()) {
-					player.sendMessage(name + onlineSuffix);
+					player.sendMessage("  " + name + onlineSuffix);
 				} else {
-					player.sendMessage(name + offlineSuffix);
+					player.sendMessage("  " + name + offlineSuffix);
 				}
 			}
-			
-			
 		}
-		
+
+
+		player.sendMessage("");
 	}
 
 	public void factionInfoByPlayer(Player player, Player target) {
-		
+
 		PlayerFaction faction = getFactionByPlayer(target);
 		
 		if(faction == null) {
 			player.sendMessage(ChatColor.RED + target.getName() + " is not in a team!");
 			return;
 		}
-		
-		String onlineSuffix = ChatColor.GRAY + " - Online ";
+
 		String offlineSuffix = ChatColor.GRAY + " - Offline ";
-		
-		String hq = ChatColor.GRAY.toString() + "Not Set - ";
-		
+
+		String hq = ChatColor.RED.toString() + "Not Set";
+
 		if(faction.getHq() != null) {
-			hq = ChatColor.GRAY.toString() + "Set - ";
+			hq = ChatColor.GREEN.toString() + "Set";
 		}
-		
-		String rally = ChatColor.GRAY.toString() + " - Not Set";
-		
+
+		String rally = ChatColor.RED.toString() + "Not Set";
+
 		if(faction.getRally() != null) {
-			rally = ChatColor.GRAY.toString() + " Set";
+			rally = ChatColor.GREEN.toString() + "Set";
 		}
-		
-		String msg =  ChatColor.DARK_AQUA.toString() + faction.getName() + ChatColor.GRAY + " - [" + faction.getMembers().size() + "/30]" + "\n " +
-				ChatColor.DARK_AQUA + "HQ: " + hq + ChatColor.DARK_AQUA + "Rally: " + rally;
+
+		String msg = " " + " \n" +
+				ChatColor.GRAY + "***" + ChatColor.DARK_AQUA + faction.getName() + ChatColor.GRAY + "***\n" +
+				ChatColor.GRAY + "Headquarters: " + hq + "\n" +
+				ChatColor.GRAY + "Rally point: " + rally + "\n" +
+				ChatColor.GRAY + "Members (" + getOnlineCount(player) + "/" + faction.getMembers().size() + "):";
 		
 		player.sendMessage(msg);
 		
 		for(String p : faction.getMembers()) {
-			
+
+
 			OfflinePlayer pl = Bukkit.getOfflinePlayer(UUID.fromString(p));
-			
+
+			String onlineSuffix = ChatColor.GRAY + " - " + ((int) (((Player) pl).getHealth() / 20 * 100)) + "%";
+
 			String name = ChatColor.GRAY + pl.getName();
 			
 			if(faction.getCaptains().contains(p) || faction.getLeader().equals(p)) {
@@ -713,80 +747,85 @@ public class PlayerFactionManager {
 				name = ChatColor.DARK_AQUA + pl.getName();
 				
 				if(pl.isOnline()) {
-					player.sendMessage(name + onlineSuffix);
+					player.sendMessage("  " +name + onlineSuffix);
 				} else {
-					player.sendMessage(name + offlineSuffix);
+					player.sendMessage("  " +name + offlineSuffix);
 				}
 				
 			} else {
 				if(pl.isOnline()) {
-					player.sendMessage(name + onlineSuffix);
+					player.sendMessage("  " + name + onlineSuffix);
 				} else {
-					player.sendMessage(name + offlineSuffix);
+					player.sendMessage("  " + name + offlineSuffix);
 				}
 			}
-			
-			
 		}
+
+		player.sendMessage(" ");
 		
 	}
 	
 	public void factionInfoByName(Player player, String n) {
-		
+
 		PlayerFaction faction = getFactionByName(n);
-		
+
 		if(faction == null) {
-			player.sendMessage(ChatColor.RED + "Could not find the team " + n);
+			player.sendMessage(ChatColor.RED + n + " could not be found");
 			return;
 		}
-		
-		String onlineSuffix = ChatColor.GRAY + " - Online ";
+
 		String offlineSuffix = ChatColor.GRAY + " - Offline ";
-		
-		String hq = ChatColor.GRAY.toString() + "Not Set - ";
-		
+
+		String hq = ChatColor.RED.toString() + "Not Set";
+
 		if(faction.getHq() != null) {
-			hq = ChatColor.GRAY.toString() + "Set - ";
+			hq = ChatColor.GREEN.toString() + "Set";
 		}
-		
-		String rally = ChatColor.GRAY.toString() + " - Not Set";
-		
+
+		String rally = ChatColor.RED.toString() + "Not Set";
+
 		if(faction.getRally() != null) {
-			rally = ChatColor.GRAY.toString() + " Set";
+			rally = ChatColor.GREEN.toString() + "Set";
 		}
-		
-		String msg =  ChatColor.DARK_AQUA.toString() + faction.getName() + ChatColor.GRAY + " - [" + faction.getMembers().size() + "/30]" + "\n- " +
-				ChatColor.DARK_AQUA + "HQ: " + hq + ChatColor.DARK_AQUA + "Rally: " + rally;
-		
+
+		String msg = " " + " \n" +
+				ChatColor.GRAY + "***" + ChatColor.DARK_AQUA + faction.getName() + ChatColor.GRAY + "***\n" +
+				ChatColor.GRAY + "Headquarters: " + hq + "\n" +
+				ChatColor.GRAY + "Rally point: " + rally + "\n" +
+				ChatColor.GRAY + "Members (" + getOnlineCount(player) + "/" + faction.getMembers().size() + "):";
+
 		player.sendMessage(msg);
-		
+
 		for(String p : faction.getMembers()) {
-			
+
+
 			OfflinePlayer pl = Bukkit.getOfflinePlayer(UUID.fromString(p));
-			
+
+			String onlineSuffix = ChatColor.GRAY + " - " + ((int) (((Player) pl).getHealth() / 20 * 100)) + "%";
+
 			String name = ChatColor.GRAY + pl.getName();
-			
+
 			if(faction.getCaptains().contains(p) || faction.getLeader().equals(p)) {
-				
+
 				name = ChatColor.DARK_AQUA + pl.getName();
-				
+
 				if(pl.isOnline()) {
-					player.sendMessage(name + onlineSuffix);
+					player.sendMessage("  " +name + onlineSuffix);
 				} else {
-					player.sendMessage(name + offlineSuffix);
+					player.sendMessage("  " +name + offlineSuffix);
 				}
-				
+
 			} else {
 				if(pl.isOnline()) {
-					player.sendMessage(name + onlineSuffix);
+					player.sendMessage("  " + name + onlineSuffix);
 				} else {
-					player.sendMessage(name + offlineSuffix);
+					player.sendMessage("  " + name + offlineSuffix);
 				}
 			}
-			
-			
 		}
-		
+
+		player.sendMessage(" ");
+
 	}
 
 	@SuppressWarnings("deprecation")

@@ -132,4 +132,5 @@ public class SpawnProtectionCommands implements CommandExecutor {
 		player.sendMessage(ChatColor.GREEN + "Teleported to Spawn");
 	}
 
+
 }

@@ -15,8 +15,7 @@ public class TeleportRunnables extends BukkitRunnable {
 	@Override
 	public void run() {
 		
-		for(Player p : Bukkit.getOnlinePlayers()) {
-			
+		for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 			
 			//Team HQ cooldown
 			if(CollectionsUtil.getTeleportHq().containsKey(p.getName())) {
@@ -68,7 +67,7 @@ public class TeleportRunnables extends BukkitRunnable {
 				if(CollectionsUtil.getCombat().get(p.getName()) <= 0) {
 					
 					CollectionsUtil.getCombat().remove(p.getName());
-					
+					p.sendMessage(ChatColor.GREEN + "You can safely logout now");
 				}
 				
 			}
@@ -85,6 +84,19 @@ public class TeleportRunnables extends BukkitRunnable {
 					CollectionsUtil.getSafe().add(p.getName());
 				}
 				
+			}
+
+			//Warp cooldown
+			if(CollectionsUtil.getWarp().containsKey(p.getName())) {
+
+				CollectionsUtil.getWarp().put(p.getName(), CollectionsUtil.getWarp().get(p.getName()) - 1);
+
+				if(CollectionsUtil.getWarp().get(p.getName()) <= 0) {
+
+					CollectionsUtil.getWarp().remove(p.getName());
+					p.sendMessage(ChatColor.GRAY + "Teleported to warp");
+				}
+
 			}
 			
 		}

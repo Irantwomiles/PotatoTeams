@@ -31,11 +31,11 @@ public class Balance implements Listener {
 	
 	public void createBalance(String uuid) {
 		
-		file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerGold", uuid + ".yml");
+		file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerInfo", uuid + ".yml");
 		
 		if(!file.exists()) {
 			
-			file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerGold", uuid + ".yml");
+			file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerInfo", uuid + ".yml");
 			
 			YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 			
@@ -54,7 +54,7 @@ public class Balance implements Listener {
 	
 	public void updateBalance(String uuid, double gold) {
 		
-		file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerGold", uuid + ".yml");
+		file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerInfo", uuid + ".yml");
 		
 		if(file.exists()) {
 			
@@ -69,7 +69,7 @@ public class Balance implements Listener {
 			}
 		} else {
 		
-			file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerGold", uuid + ".yml");
+			file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerInfo", uuid + ".yml");
 			
 			YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 			
@@ -89,7 +89,7 @@ public class Balance implements Listener {
 	public double getBalance(String uuid) {
 		double gold = 0.0;
 		
-		file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerGold", uuid + ".yml");
+		file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerInfo", uuid + ".yml");
 		
 		if(file.exists()) {
 			

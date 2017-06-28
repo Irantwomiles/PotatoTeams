@@ -29,8 +29,6 @@ public class DisconnectEvent implements Listener {
 
 			player.setHealth(0.0);
 
-			System.out.println("Killed");
-
 			CollectionsUtil.getCombat().remove(player.getName());
 
 		}

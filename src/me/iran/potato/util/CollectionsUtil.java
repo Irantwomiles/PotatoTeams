@@ -16,7 +16,9 @@ public class CollectionsUtil {
 	private static ArrayList<String> teamChat = new ArrayList<>();
 	
 	private static ArrayList<String> safe = new ArrayList<>();
-	
+
+	private static HashMap<String, Integer> warp = new HashMap<>();
+
 	public static HashMap<String, Integer> getTeleportRally() {
 		return teleportRally;
 	}
@@ -41,4 +43,7 @@ public class CollectionsUtil {
 		return spawn;
 	}
 
+	public static HashMap<String, Integer> getWarp() {
+		return warp;
+	}
 }

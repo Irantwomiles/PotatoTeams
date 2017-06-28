@@ -130,7 +130,13 @@ public class SaleCommands implements CommandExecutor {
 					}
 
 					break;
-
+				case "mooshegg":
+					try {
+						SaleManager.getManager().sellItem(player, Double.parseDouble(args[2]), new ItemStack(Material.MONSTER_EGG, Integer.parseInt(args[0]), (short) 96), Integer.parseInt(args[0]));
+					} catch(Exception e) {
+						player.sendMessage(ChatColor.RED + "/buy <amount> <item> <price>");
+					}
+					break;
 					default:
 
 						try {
@@ -228,7 +234,13 @@ public class SaleCommands implements CommandExecutor {
 						player.sendMessage(ChatColor.RED + "/buy <amount> <item> <price>");
 					}
 					break;
-
+				case "mooshegg":
+					try {
+						SaleManager.getManager().buyItem(player, new ItemStack(Material.MONSTER_EGG, Integer.parseInt(args[0]), (short) 96), Double.parseDouble(args[2]), Integer.parseInt(args[0]));
+					} catch(Exception e) {
+						player.sendMessage(ChatColor.RED + "/buy <amount> <item> <price>");
+					}
+					break;
 					default:
 						try {
 							SaleManager.getManager().buyItem(player, new ItemStack(Material.getMaterial(args[1].toUpperCase()), Integer.parseInt(args[0])), Double.parseDouble(args[2]), Integer.parseInt(args[0]));

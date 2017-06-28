@@ -54,10 +54,6 @@ public class TeleportEvents implements Listener {
 		
 		Player player = event.getPlayer();
 		
-		if(CollectionsUtil.getCombat().containsKey(player.getName())) {
-			CollectionsUtil.getCombat().remove(player.getName());
-		}
-		
 		if(CollectionsUtil.getTeleportHq().containsKey(player.getName())) {
 			CollectionsUtil.getTeleportHq().remove(player.getName());
 		}

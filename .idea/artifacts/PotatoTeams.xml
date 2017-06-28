@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="PotatoTeams">
+    <output-path>$PROJECT_DIR$/../../BungeeCord/ServerA/plugins</output-path>
+    <root id="archive" name="PotatoTeams.jar">
+      <element id="module-output" name="PotatoTeams" />
+      <element id="file-copy" path="$PROJECT_DIR$/plugin.yml" />
+      <element id="file-copy" path="$PROJECT_DIR$/config.yml" />
+    </root>
+  </artifact>
+</component>
