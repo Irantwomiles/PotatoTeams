@@ -96,6 +96,7 @@ public class Warps{
 
     }
 
+
     public void getWarps(Player player) {
 
         file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerInfo", player.getUniqueId().toString() + ".yml");
@@ -126,6 +127,28 @@ public class Warps{
 
         }
     }
+
+    public List<String> getWarp(Player player) {
+
+        file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerInfo", player.getUniqueId().toString() + ".yml");
+
+        List<String> warps = new ArrayList<>();
+
+        if(file.exists()) {
+
+            YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+            if (config.contains("warps")) {
+
+                for (String s : config.getConfigurationSection("warps").getKeys(false)) {
+                    warps.add(s);
+                }
+            }
+        }
+
+        return warps;
+    }
+
 
     public int warpCount(Player player) {
 
