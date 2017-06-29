@@ -15,19 +15,17 @@ import me.iran.potato.events.DisconnectEvent;
 import me.iran.potato.events.TeamChatEvent;
 import me.iran.potato.events.TeleportEvents;
 import me.iran.potato.factions.PlayerFactionManager;
+import me.iran.potato.factions.SaveRunnable;
 import me.iran.potato.run.TeleportRunnables;
 import me.iran.potato.spawn.SpawnProtection;
 import me.iran.potato.spawn.SpawnProtectionCommands;
-import me.iran.potato.util.CollectionsUtil;
 import me.iran.potato.warps.WarpCommand;
+import me.wilk3z.crystal.Crystal;
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PotatoTeams extends JavaPlugin {
@@ -36,23 +34,15 @@ public class PotatoTeams extends JavaPlugin {
 	
 	private ConsoleCommandSender log = this.getServer().getConsoleSender();
 	
-	TeleportRunnables run = new TeleportRunnables();
-	
+	private TeleportRunnables run = new TeleportRunnables();
+
+	private SaveRunnable saveRunnable = new SaveRunnable();
+
 	private static PotatoTeams instance;
 	
 	public static PotatoTeams getInstance() {
 		return instance;
 	}
-	
-	/**
-	 * TODO: 
-	 * - Login message for teams
-	 * - Quit message for teams
-	 * - Login message for no spawn protection
-	 * - Warps
-	 * - Remove sections from economy.yml when the item has run out
-	 * - testing
-	 */
 	
 	public void onEnable() {
 
@@ -60,6 +50,8 @@ public class PotatoTeams extends JavaPlugin {
 		log.sendMessage(ChatColor.DARK_AQUA + "PotatoTeams Plugin");
 		log.sendMessage(ChatColor.DARK_AQUA.toString() + ChatColor.BOLD + "Plugin by: Irantwomiles");
 		log.sendMessage(ChatColor.AQUA + "-------------------------");
+
+		Crystal.registerPlugin(this);
 		
 		instance = this;
 		
@@ -198,7 +190,8 @@ public class PotatoTeams extends JavaPlugin {
 		 */
 		
 		run.runTaskTimer(this, 20, 20);
-		
+		saveRunnable.runTaskTimer(this, 20, 20);
+
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 		

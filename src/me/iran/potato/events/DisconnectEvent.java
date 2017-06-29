@@ -2,7 +2,9 @@ package me.iran.potato.events;
 
 import me.iran.potato.PotatoTeams;
 
+import me.iran.potato.factions.PlayerFactionManager;
 import me.iran.potato.util.CollectionsUtil;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,7 +18,9 @@ public class DisconnectEvent implements Listener {
 	public DisconnectEvent (PotatoTeams plugin) {
 		this.plugin = plugin;
 	}
-	
+
+	private ConsoleCommandSender log = PotatoTeams.getInstance().getServer().getConsoleSender();
+
 	@EventHandler
 	public void onQuit(PlayerQuitEvent event) {
 		/*
@@ -30,6 +34,16 @@ public class DisconnectEvent implements Listener {
 			player.setHealth(0.0);
 
 			CollectionsUtil.getCombat().remove(player.getName());
+
+		}
+
+
+		if(PlayerFactionManager.getManager().playerIsInFaction(player)) {
+
+			if(PlayerFactionManager.getManager().getOnlineCount(player) <= 1) {
+
+				PlayerFactionManager.getManager().saveFaction(PlayerFactionManager.getManager().getFactionByPlayer(player));
+			}
 
 		}
 

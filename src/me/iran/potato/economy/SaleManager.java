@@ -125,8 +125,6 @@ public class SaleManager {
 
 			if (config.contains("economy.id." + sale.getId())) {
 				
-				System.out.println(sale.getCount() + " count");
-				
 				if(sale.getCount() <= 0) {
 
 					config.set("economy.id." + sale.getId(), null);
@@ -136,14 +134,10 @@ public class SaleManager {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					
-					System.out.println("Count <= 0 set to null");
-					
+
 					return;
 				}
 				
-				System.out.println("Path exists and set to null");
-
 				config.set("economy.id." + sale.getId() + ".seller", sale.getSeller());
 				config.set("economy.id." + sale.getId() + ".item", sale.getItem());
 				config.set("economy.id." + sale.getId() + ".price", sale.getPrice());
@@ -157,8 +151,6 @@ public class SaleManager {
 				}
 				
 			} else {
-				
-				System.out.println("Path doesn't exists, updating");
 				
 				config.createSection("economy.id." + sale.getId() + ".seller");
 				config.createSection("economy.id." + sale.getId() + ".item");

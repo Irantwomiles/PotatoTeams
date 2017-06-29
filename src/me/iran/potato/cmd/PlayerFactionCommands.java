@@ -12,11 +12,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Villager;
-
-import java.util.UUID;
 
 public class PlayerFactionCommands implements CommandExecutor {
 
@@ -25,7 +21,8 @@ public class PlayerFactionCommands implements CommandExecutor {
 	public PlayerFactionCommands(PotatoTeams plugin) {
 		this.plugin = plugin;
 	}
-	
+
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		

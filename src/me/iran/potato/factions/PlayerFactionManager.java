@@ -242,7 +242,218 @@ public class PlayerFactionManager {
 		}
 		
 	}
-	
+
+	public void saveFaction(PlayerFaction faction) {
+
+		playerfaction = new File(PotatoTeams.getInstance().getDataFolder(), "playerfaction.yml");
+
+
+		if (playerfaction.exists()) {
+
+			YamlConfiguration listConfig = YamlConfiguration.loadConfiguration(playerfaction);
+
+			List<String> list = listConfig.getStringList("playerfaction");
+
+			if (!list.contains(faction.getName())) {
+				list.add(faction.getName());
+			}
+
+			listConfig.set("playerfaction", list);
+
+			file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerFaction", faction.getName() + ".yml");
+
+			if (!file.exists()) {
+
+				file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerFaction", faction.getName() + ".yml");
+
+				YamlConfiguration facConfig = YamlConfiguration.loadConfiguration(file);
+
+				facConfig.createSection("playerfaction." + faction.getName() + ".name");
+				facConfig.createSection("playerfaction." + faction.getName() + ".leader");
+				facConfig.createSection("playerfaction." + faction.getName() + ".members");
+				facConfig.createSection("playerfaction." + faction.getName() + ".open");
+				facConfig.createSection("playerfaction." + faction.getName() + ".password");
+
+				if (faction.getCaptains().size() > 0) {
+					facConfig.createSection("playerfaction." + faction.getName() + ".captains");
+					facConfig.set("playerfaction." + faction.getName() + ".captains", faction.getCaptains());
+				}
+
+				if (faction.getHq() != null) {
+					facConfig.createSection("playerfaction." + faction.getName() + ".hq.x");
+					facConfig.createSection("playerfaction." + faction.getName() + ".hq.y");
+					facConfig.createSection("playerfaction." + faction.getName() + ".hq.z");
+					facConfig.createSection("playerfaction." + faction.getName() + ".hq.world");
+
+
+					facConfig.set("playerfaction." + faction.getName() + ".hq.x", faction.getHq().getBlockX());
+					facConfig.set("playerfaction." + faction.getName() + ".hq.y", faction.getHq().getBlockY());
+					facConfig.set("playerfaction." + faction.getName() + ".hq.z", faction.getHq().getBlockZ());
+					facConfig.set("playerfaction." + faction.getName() + ".hq.world", faction.getHqWorld());
+				}
+
+				if (faction.getRally() != null) {
+					facConfig.createSection("playerfaction." + faction.getName() + ".rally.x");
+					facConfig.createSection("playerfaction." + faction.getName() + ".rally.y");
+					facConfig.createSection("playerfaction." + faction.getName() + ".rally.z");
+					facConfig.createSection("playerfaction." + faction.getName() + ".rally.world");
+
+
+					facConfig.set("playerfaction." + faction.getName() + ".rally.x", faction.getRally().getBlockX());
+					facConfig.set("playerfaction." + faction.getName() + ".rally.y", faction.getRally().getBlockY());
+					facConfig.set("playerfaction." + faction.getName() + ".rally.z", faction.getRally().getBlockZ());
+					facConfig.set("playerfaction." + faction.getName() + ".rally.world", faction.getRallyWorld());
+				}
+
+
+				facConfig.set("playerfaction." + faction.getName() + ".name", faction.getName());
+				facConfig.set("playerfaction." + faction.getName() + ".leader", faction.getLeader());
+				facConfig.set("playerfaction." + faction.getName() + ".members", faction.getMembers());
+				facConfig.set("playerfaction." + faction.getName() + ".open", faction.isOpen());
+				facConfig.set("playerfaction." + faction.getName() + ".password", faction.getPass());
+
+				try {
+					facConfig.save(file);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+			} else {
+
+				YamlConfiguration facConfig = YamlConfiguration.loadConfiguration(file);
+
+				if (facConfig.contains("playerfaction." + faction.getName() + ".captains")) {
+
+					if (faction.getCaptains().size() > 0) {
+						facConfig.set("playerfaction." + faction.getName() + ".captains", faction.getCaptains());
+					} else {
+						facConfig.set("playerfaction." + faction.getName() + ".captains", null);
+					}
+
+				} else if (!facConfig.contains("playerfaction." + faction.getName() + ".captains")) {
+
+					if (faction.getCaptains().size() > 0) {
+
+						facConfig.createSection("playerfaction." + faction.getName() + ".captains");
+
+						facConfig.set("playerfaction." + faction.getName() + ".captains", faction.getCaptains());
+					}
+
+				}
+
+				if (facConfig.contains("playerfaction." + faction.getName() + ".hq")) {
+
+					if (faction.getHq() != null) {
+						facConfig.set("playerfaction." + faction.getName() + ".hq.x", faction.getHq().getBlockX());
+						facConfig.set("playerfaction." + faction.getName() + ".hq.y", faction.getHq().getBlockY());
+						facConfig.set("playerfaction." + faction.getName() + ".hq.z", faction.getHq().getBlockZ());
+						facConfig.set("playerfaction." + faction.getName() + ".hq.world", faction.getHqWorld());
+					} else {
+						facConfig.set("playerfaction." + faction.getName() + ".hq", null);
+					}
+
+				} else if (!facConfig.contains("playerfaction." + faction.getName() + ".hq")) {
+
+					if (faction.getHq() != null) {
+						facConfig.createSection("playerfaction." + faction.getName() + ".hq.x");
+						facConfig.createSection("playerfaction." + faction.getName() + ".hq.y");
+						facConfig.createSection("playerfaction." + faction.getName() + ".hq.z");
+						facConfig.createSection("playerfaction." + faction.getName() + ".hq.world");
+
+						facConfig.set("playerfaction." + faction.getName() + ".hq.x", faction.getHq().getBlockX());
+						facConfig.set("playerfaction." + faction.getName() + ".hq.y", faction.getHq().getBlockY());
+						facConfig.set("playerfaction." + faction.getName() + ".hq.z", faction.getHq().getBlockZ());
+						facConfig.set("playerfaction." + faction.getName() + ".hq.world", faction.getHqWorld());
+					}
+
+				}
+
+				if (facConfig.contains("playerfaction." + faction.getName() + ".rally")) {
+
+					if (faction.getRally() != null) {
+						facConfig.set("playerfaction." + faction.getName() + ".rally.x", faction.getRally().getBlockX());
+						facConfig.set("playerfaction." + faction.getName() + ".rally.y", faction.getRally().getBlockY());
+						facConfig.set("playerfaction." + faction.getName() + ".rally.z", faction.getRally().getBlockZ());
+						facConfig.set("playerfaction." + faction.getName() + ".rally.world", faction.getRallyWorld());
+					} else {
+						facConfig.set("playerfaction." + faction.getName() + ".rally", null);
+					}
+
+				} else if (!facConfig.contains("playerfaction." + faction.getName() + ".rally")) {
+
+					if (faction.getRally() != null) {
+						facConfig.createSection("playerfaction." + faction.getName() + ".rally.x");
+						facConfig.createSection("playerfaction." + faction.getName() + ".rally.y");
+						facConfig.createSection("playerfaction." + faction.getName() + ".rally.z");
+						facConfig.createSection("playerfaction." + faction.getName() + ".rally.world");
+
+						facConfig.set("playerfaction." + faction.getName() + ".rally.x", faction.getRally().getBlockX());
+						facConfig.set("playerfaction." + faction.getName() + ".rally.y", faction.getRally().getBlockY());
+						facConfig.set("playerfaction." + faction.getName() + ".rally.z", faction.getRally().getBlockZ());
+						facConfig.set("playerfaction." + faction.getName() + ".rally.world", faction.getRallyWorld());
+					}
+
+				}
+
+				facConfig.set("playerfaction." + faction.getName() + ".name", faction.getName());
+				facConfig.set("playerfaction." + faction.getName() + ".leader", faction.getLeader());
+				facConfig.set("playerfaction." + faction.getName() + ".members", faction.getMembers());
+				facConfig.set("playerfaction." + faction.getName() + ".open", faction.isOpen());
+				facConfig.set("playerfaction." + faction.getName() + ".password", faction.getPass());
+
+
+				try {
+					facConfig.save(file);
+
+					System.out.println("saved facConfig");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+			}
+
+			try {
+				listConfig.save(playerfaction);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+
+	}
+
+	public void removePlayerFaction(PlayerFaction faction) {
+
+		playerfaction = new File(PotatoTeams.getInstance().getDataFolder(), "playerfaction.yml");
+
+		if(playerfaction.exists()) {
+
+			YamlConfiguration config = YamlConfiguration.loadConfiguration(playerfaction);
+
+			if(config.getStringList("playerfaction").contains(faction.getName())) {
+
+				config.getStringList("playerfaction").remove(faction.getName());
+
+				file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerFaction", faction.getName() + ".yml");
+
+				if(file.exists()) {
+					file.delete();
+				}
+
+				try {
+					config.save(file);
+
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+
+		}
+
+	}
+
 	public void createFaction(String name, Player player) {
 		
 		if(getFactionByName(name) != null) {
@@ -460,8 +671,7 @@ public class PlayerFactionManager {
 					p.sendMessage(ChatColor.DARK_AQUA + player.getName() + " has updated the team rally! /team rally");
 				}
 			}
-			
-			return;
+
 		} else {
 			player.sendMessage(ChatColor.RED + "Only captains and the leader can do this command");
 		}
@@ -845,11 +1055,13 @@ public class PlayerFactionManager {
 					p.sendMessage(ChatColor.RED + player.getName() + " has disbanded the team");
 				}
 			}
-			
+
+			removePlayerFaction(faction);
+
 			faction.getMembers().clear();
 			faction.getCaptains().clear();
 			factions.remove(faction);
-			
+
 		} else {
 			player.sendMessage(ChatColor.RED + "Only team leaders can do that command!");
 		}
