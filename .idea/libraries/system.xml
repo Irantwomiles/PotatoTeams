@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="system">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../BungeeCord/Dep/system.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../system.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../../BungeeCord/Dep/system.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../system.jar!/" />
     </SOURCES>
   </library>
 </component>

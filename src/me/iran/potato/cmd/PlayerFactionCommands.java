@@ -200,7 +200,7 @@ public class PlayerFactionCommands implements CommandExecutor {
 				PlayerFactionManager.getManager().toggleFriendyFire(player);
 			}
 			
-			if(args[0].equalsIgnoreCase("chat")) {
+			if(args[0].equalsIgnoreCase("chat") || args[0].equalsIgnoreCase("c")) {
 				
 				PlayerFaction faction = PlayerFactionManager.getManager().getFactionByPlayer(player);
 				

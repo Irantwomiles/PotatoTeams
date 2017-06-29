@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="Crystal">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../BungeeCord/Dep/Crystal.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/Crystal.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

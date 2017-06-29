@@ -34,9 +34,9 @@ public class TeamChatEvent implements Listener {
 				
 				event.setCancelled(true);
 				
-				String msg = ChatColor.GRAY + "[" + faction.getName() + "] " + ChatColor.DARK_AQUA + player.getName() + ": " + ChatColor.GRAY + event.getMessage();
+				String msg = ChatColor.WHITE + "<" + ChatColor.DARK_AQUA + player.getName() + ChatColor.WHITE + ">" + ChatColor.GRAY + "[" + faction.getName() + "] " + ChatColor.WHITE + event.getMessage();
 				
-				for(Player p : Bukkit.getOnlinePlayers()) {
+				for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 					
 					if(faction.getMembers().contains(p.getUniqueId().toString())) {
 						
