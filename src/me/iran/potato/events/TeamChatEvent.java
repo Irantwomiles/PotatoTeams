@@ -20,7 +20,6 @@ public class TeamChatEvent implements Listener {
 		this.plugin = plugin;
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
 		
@@ -33,23 +32,21 @@ public class TeamChatEvent implements Listener {
 			if(CollectionsUtil.getTeamChat().contains(player.getName())) {
 				
 				event.setCancelled(true);
-				
-				String msg = ChatColor.WHITE + "<" + ChatColor.DARK_AQUA + player.getName() + ChatColor.WHITE + ">" + ChatColor.GRAY + "[" + faction.getName() + "] " + ChatColor.WHITE + event.getMessage();
-				
-				for(Player p : Bukkit.getServer().getOnlinePlayers()) {
-					
-					if(faction.getMembers().contains(p.getUniqueId().toString())) {
-						
-						p.sendMessage(msg);
-						
-					}
-					
+
+				String msg = ChatColor.WHITE + "<" + ChatColor.GRAY + player.getName() + ChatColor.WHITE + ">" + ChatColor.GRAY + "[" + faction.getName() + "] " + ChatColor.WHITE + event.getMessage();
+
+				if(faction.getCaptains().contains(player.getUniqueId().toString()) || faction.getLeader().equalsIgnoreCase(player.getUniqueId().toString())) {
+					msg = ChatColor.WHITE + "<" + ChatColor.DARK_AQUA + player.getName() + ChatColor.WHITE + ">" + ChatColor.GRAY + "[" + faction.getName() + "] " + ChatColor.WHITE + event.getMessage();
 				}
-				
+
+				for(Player p : Bukkit.getServer().getOnlinePlayers()) {
+
+					if(faction.getMembers().contains(p.getUniqueId().toString())) {
+						p.sendMessage(msg);
+					}
+				}
 			}
-			
 		}
-		
 	}
 	
 }

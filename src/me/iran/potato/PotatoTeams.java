@@ -20,10 +20,10 @@ import me.iran.potato.run.TeleportRunnables;
 import me.iran.potato.spawn.SpawnProtection;
 import me.iran.potato.spawn.SpawnProtectionCommands;
 import me.iran.potato.warps.WarpCommand;
-import me.wilk3z.crystal.Crystal;
-import net.md_5.bungee.api.ChatColor;
 
+import me.wilk3z.crystal.Crystal;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -51,14 +51,14 @@ public class PotatoTeams extends JavaPlugin {
 		log.sendMessage(ChatColor.DARK_AQUA.toString() + ChatColor.BOLD + "Plugin by: Irantwomiles");
 		log.sendMessage(ChatColor.AQUA + "-------------------------");
 
-		Crystal.registerPlugin(this);
-		
 		instance = this;
-		
+
 		getConfig().options().copyDefaults(true);
 		
 		saveConfig();
-		
+
+		Crystal.registerPlugin(this);
+
 		/**
 		 * playerfaction.yml file
 		 */
