@@ -936,10 +936,13 @@ public class PlayerFactionManager {
 		}
 
 		String msg = " " + " \n" +
-				ChatColor.GRAY + "***" + ChatColor.DARK_AQUA + faction.getName() + ChatColor.GRAY + "***\n" +
-				ChatColor.GRAY + "Headquarters: " + hq + "\n" +
-				ChatColor.GRAY + "Rally point: " + rally + "\n" +
-				ChatColor.GRAY + "Members (" + getOnlineCount(player) + "/" + faction.getMembers().size() + "):";
+				ChatColor.GRAY + "***" + ChatColor.DARK_AQUA + faction.getName() + ChatColor.GRAY + "***" + "\n";
+		if(faction.getMembers().contains(player.getUniqueId().toString()))
+		{
+			msg = msg + ChatColor.GRAY + "Headquarters: " + hq + "\n" +
+					ChatColor.GRAY + "Rally point: " + rally + "\n";
+		}
+		msg = msg + ChatColor.GRAY + "Members (" + getOnlineCount(player) + "/" + faction.getMembers().size() + "):";
 		
 		player.sendMessage(msg);
 		
@@ -999,10 +1002,13 @@ public class PlayerFactionManager {
 		}
 
 		String msg = " " + " \n" +
-				ChatColor.GRAY + "***" + ChatColor.DARK_AQUA + faction.getName() + ChatColor.GRAY + "***\n" +
-				ChatColor.GRAY + "Headquarters: " + hq + "\n" +
-				ChatColor.GRAY + "Rally point: " + rally + "\n" +
-				ChatColor.GRAY + "Members (" + getOnlineCount(player) + "/" + faction.getMembers().size() + "):";
+				ChatColor.GRAY + "***" + ChatColor.DARK_AQUA + faction.getName() + ChatColor.GRAY + "***" + "\n";
+		if(faction.getMembers().contains(player.getUniqueId().toString()))
+		{
+			msg = msg + ChatColor.GRAY + "Headquarters: " + hq + "\n" +
+					ChatColor.GRAY + "Rally point: " + rally + "\n";
+		}
+			msg = msg + ChatColor.GRAY + "Members (" + getOnlineCount(player) + "/" + faction.getMembers().size() + "):";
 
 		player.sendMessage(msg);
 
