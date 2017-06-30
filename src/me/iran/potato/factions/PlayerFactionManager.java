@@ -885,7 +885,7 @@ public class PlayerFactionManager {
 			
 			OfflinePlayer pl = Bukkit.getOfflinePlayer(UUID.fromString(p));
 
-			String onlineSuffix = ChatColor.GRAY + " - " + ((int) (((Player) pl).getHealth() / 20 * 100)) + "%";
+			String onlineSuffix = "";
 
 			String name = ChatColor.GRAY + pl.getName();
 			
@@ -894,6 +894,9 @@ public class PlayerFactionManager {
 				name = ChatColor.DARK_AQUA + pl.getName();
 				
 				if(pl.isOnline()) {
+
+					onlineSuffix = ChatColor.GRAY + " - " + ((int) (((Player) pl).getHealth() / 20 * 100)) + "%";
+
 					player.sendMessage("  " + name + onlineSuffix);
 				} else {
 					player.sendMessage("  " + name + offlineSuffix);
@@ -901,6 +904,9 @@ public class PlayerFactionManager {
 				
 			} else {
 				if(pl.isOnline()) {
+
+					onlineSuffix = ChatColor.GRAY + " - " + ((int) (((Player) pl).getHealth() / 20 * 100)) + "%";
+
 					player.sendMessage("  " + name + onlineSuffix);
 				} else {
 					player.sendMessage("  " + name + offlineSuffix);
@@ -951,7 +957,7 @@ public class PlayerFactionManager {
 
 			OfflinePlayer pl = Bukkit.getOfflinePlayer(UUID.fromString(p));
 
-			String onlineSuffix = ChatColor.GRAY + " - " + ((int) (((Player) pl).getHealth() / 20 * 100)) + "%";
+			String onlineSuffix = "";
 
 			String name = ChatColor.GRAY + pl.getName();
 			
@@ -960,6 +966,9 @@ public class PlayerFactionManager {
 				name = ChatColor.DARK_AQUA + pl.getName();
 				
 				if(pl.isOnline()) {
+
+					onlineSuffix = ChatColor.GRAY + " - " + ((int) (((Player) pl).getHealth() / 20 * 100)) + "%";
+
 					player.sendMessage("  " +name + onlineSuffix);
 				} else {
 					player.sendMessage("  " +name + offlineSuffix);
@@ -967,6 +976,7 @@ public class PlayerFactionManager {
 				
 			} else {
 				if(pl.isOnline()) {
+					onlineSuffix = ChatColor.GRAY + " - " + ((int) (((Player) pl).getHealth() / 20 * 100)) + "%";
 					player.sendMessage("  " + name + onlineSuffix);
 				} else {
 					player.sendMessage("  " + name + offlineSuffix);
@@ -1017,7 +1027,7 @@ public class PlayerFactionManager {
 
 			OfflinePlayer pl = Bukkit.getOfflinePlayer(UUID.fromString(p));
 
-			String onlineSuffix = ChatColor.GRAY + " - " + ((int) (((Player) pl).getHealth() / 20 * 100)) + "%";
+			String onlineSuffix = "";
 
 			String name = ChatColor.GRAY + pl.getName();
 
@@ -1026,6 +1036,7 @@ public class PlayerFactionManager {
 				name = ChatColor.DARK_AQUA + pl.getName();
 
 				if(pl.isOnline()) {
+					onlineSuffix = ChatColor.GRAY + " - " + ((int) (((Player) pl).getHealth() / 20 * 100)) + "%";
 					player.sendMessage("  " +name + onlineSuffix);
 				} else {
 					player.sendMessage("  " +name + offlineSuffix);
@@ -1033,6 +1044,7 @@ public class PlayerFactionManager {
 
 			} else {
 				if(pl.isOnline()) {
+					onlineSuffix = ChatColor.GRAY + " - " + ((int) (((Player) pl).getHealth() / 20 * 100)) + "%";
 					player.sendMessage("  " + name + onlineSuffix);
 				} else {
 					player.sendMessage("  " + name + offlineSuffix);
