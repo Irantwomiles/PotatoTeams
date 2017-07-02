@@ -40,7 +40,7 @@ public class WithdrawCommand implements CommandExecutor {
 				}
 				
 				ItemStack item = new ItemStack(Material.GOLD_INGOT, 0);
-				
+
 				if(balance.getBalance(player.getUniqueId().toString()) < 1) {
 					player.sendMessage(ChatColor.RED + "You don't have enough gold to withdraw");
 					return true;
@@ -49,12 +49,31 @@ public class WithdrawCommand implements CommandExecutor {
 				double gold = balance.getBalance(player.getUniqueId().toString());
 				
 				int amount = Integer.parseInt(args[0]);
-				
+
+				if(amount < 1) {
+					player.sendMessage(ChatColor.RED + "You can't withdraw less than 1 gold");
+					return true;
+				}
+
 				if(amount > gold) {
 					player.sendMessage(ChatColor.RED + "You don't have that much gold");
 					return true;
 				}
-				
+
+
+				int open = 0;
+
+				for(ItemStack it : player.getInventory().getContents()) {
+					if(it == null) {
+						open++;
+					}
+				}
+
+				if(open == 0) {
+					player.sendMessage(ChatColor.RED + "Your inventory is full!");
+					return true;
+				}
+
 				gold = gold - amount;
 				
 				balance.updateBalance(player.getUniqueId().toString(), gold);

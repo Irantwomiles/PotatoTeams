@@ -2,6 +2,7 @@ name: PotatoTeams
 main: me.iran.potato.PotatoTeams
 version: 1.0
 author: Irantwomiles
+softdepend: [Crystal]
 commands:
   team:
     description: create a team

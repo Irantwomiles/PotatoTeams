@@ -21,14 +21,16 @@ public class SpawnProtectionCommands implements CommandExecutor {
 	public SpawnProtectionCommands(PotatoTeams plugin) {
 		this.plugin = plugin;
 	}
-	
+
+	private SpawnProtection spawn = new SpawnProtection(PotatoTeams.getInstance());
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		
 		if(!(sender instanceof Player)) {
 			return true;
 		}
-		
+
 		Player player = (Player) sender;
 		
 		if(cmd.getName().equalsIgnoreCase("spawnloc1")) {
@@ -62,6 +64,7 @@ public class SpawnProtectionCommands implements CommandExecutor {
 		if(cmd.getName().equalsIgnoreCase("setspawn")) {
 			
 			if(player.hasPermission("potatoteams.spawn.setspawn")) {
+
 				PotatoTeams.getInstance().getConfig().set("spawn.x", player.getLocation().getBlockX());
 				PotatoTeams.getInstance().getConfig().set("spawn.y", player.getLocation().getBlockY());
 				PotatoTeams.getInstance().getConfig().set("spawn.z", player.getLocation().getBlockZ());
@@ -74,7 +77,21 @@ public class SpawnProtectionCommands implements CommandExecutor {
 		}
 		
 		if(cmd.getName().equalsIgnoreCase("spawn")) {
-			
+
+			if(spawn.isInsideSpawn(player.getLocation()) && CollectionsUtil.getSafe().contains(player.getName())) {
+				int x = PotatoTeams.getInstance().getConfig().getInt("spawn.x");
+				int y = PotatoTeams.getInstance().getConfig().getInt("spawn.y");
+				int z = PotatoTeams.getInstance().getConfig().getInt("spawn.z");
+
+				String world = PotatoTeams.getInstance().getConfig().getString("safezone.world");
+
+				Location loc = new Location(Bukkit.getWorld(world), x, y, z);
+
+				player.teleport(loc);
+				player.sendMessage(ChatColor.GRAY + "Teleported to Spawn");
+				return true;
+			}
+
 			teleportSpawn(player);
 			
 		}
@@ -125,11 +142,15 @@ public class SpawnProtectionCommands implements CommandExecutor {
 				}
 			}
 		}
-		
-		CollectionsUtil.getSafe().add(player.getName());
-		
+
+		if(!CollectionsUtil.getSafe().contains(player.getName())) {
+			CollectionsUtil.getSafe().add(player.getName());
+		}
+
 		player.teleport(loc);
-		player.sendMessage(ChatColor.GREEN + "Teleported to Spawn");
+
+		player.sendMessage(ChatColor.GRAY + "Teleported to Spawn");
+
 	}
 
 

@@ -97,7 +97,7 @@ public class Warps{
     }
 
 
-    public void getWarps(Player player) {
+    public void getWarpNames(Player player) {
 
         file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerInfo", player.getUniqueId().toString() + ".yml");
 
@@ -105,7 +105,7 @@ public class Warps{
 
             YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 
-            String msg = ChatColor.GRAY + "No warps set";
+            String msg = ChatColor.GRAY + "No warps set /go set | remove";
 
             if(config.contains("warps")) {
 
@@ -128,7 +128,7 @@ public class Warps{
         }
     }
 
-    public List<String> getWarp(Player player) {
+    public List<String> getWarps(Player player) {
 
         file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerInfo", player.getUniqueId().toString() + ".yml");
 
@@ -148,7 +148,6 @@ public class Warps{
 
         return warps;
     }
-
 
     public int warpCount(Player player) {
 

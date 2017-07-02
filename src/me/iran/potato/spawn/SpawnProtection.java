@@ -10,7 +10,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 public class SpawnProtection implements Listener {
 
@@ -19,7 +21,54 @@ public class SpawnProtection implements Listener {
 	public SpawnProtection(PotatoTeams plugin) {
 		this.plugin = plugin;
 	}
-	
+
+	@EventHandler
+	public void onJoin(PlayerJoinEvent event) {
+
+		Player player = event.getPlayer();
+
+		if(!player.hasPlayedBefore()) {
+
+			int x = PotatoTeams.getInstance().getConfig().getInt("spawn.x");
+			int y = PotatoTeams.getInstance().getConfig().getInt("spawn.y");
+			int z = PotatoTeams.getInstance().getConfig().getInt("spawn.z");
+
+			String world = PotatoTeams.getInstance().getConfig().getString("safezone.world");
+
+			Location loc = new Location(Bukkit.getWorld(world), x, y, z);
+
+			player.teleport(loc);
+
+		}
+	}
+
+	@EventHandler
+	public void onRespawn(PlayerRespawnEvent event) {
+		Player player = event.getPlayer();
+
+		if(player.getBedSpawnLocation() == null) {
+
+			if(!CollectionsUtil.getSafe().contains(player.getName())) {
+				CollectionsUtil.getSafe().add(player.getName());
+			}
+
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(PotatoTeams.getInstance(), new Runnable() {
+				@Override
+				public void run() {
+					int x = PotatoTeams.getInstance().getConfig().getInt("spawn.x");
+					int y = PotatoTeams.getInstance().getConfig().getInt("spawn.y");
+					int z = PotatoTeams.getInstance().getConfig().getInt("spawn.z");
+
+					String world = PotatoTeams.getInstance().getConfig().getString("safezone.world");
+
+					Location loc = new Location(Bukkit.getWorld(world), x, y, z);
+
+					player.teleport(loc);
+				}
+			}, 10L);
+		}
+	}
+
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		

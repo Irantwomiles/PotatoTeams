@@ -547,11 +547,11 @@ public class PlayerFactionManager {
 		
 		if(faction.isOpen()) {
 			faction.getMembers().add(player.getUniqueId().toString());
-		}
-		
-		for(Player p : Bukkit.getServer().getOnlinePlayers()) {
-			if(faction.getMembers().contains(p.getUniqueId().toString())) {
-				p.sendMessage(ChatColor.DARK_AQUA + player.getName() + " has joined the team!");
+
+			for(Player p : Bukkit.getServer().getOnlinePlayers()) {
+				if(faction.getMembers().contains(p.getUniqueId().toString())) {
+					p.sendMessage(ChatColor.DARK_AQUA + player.getName() + " has joined the team!");
+				}
 			}
 		}
 		
@@ -611,14 +611,14 @@ public class PlayerFactionManager {
 		
 		if(!faction.isOpen() && faction.getPass().equals(pass)) {
 			faction.getMembers().add(player.getUniqueId().toString());
-		}
-		
-		for(Player p : Bukkit.getServer().getOnlinePlayers()) {
-			if(faction.getMembers().contains(p.getUniqueId().toString())) {
-				p.sendMessage(ChatColor.DARK_AQUA + player.getName() + " has joined the team!");
+
+			for(Player p : Bukkit.getServer().getOnlinePlayers()) {
+				if(faction.getMembers().contains(p.getUniqueId().toString())) {
+					p.sendMessage(ChatColor.DARK_AQUA + player.getName() + " has joined the team!");
+				}
 			}
 		}
-		
+
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -663,7 +663,15 @@ public class PlayerFactionManager {
 		}
 		
 		if(faction.getCaptains().contains(player.getUniqueId().toString()) || faction.getLeader().equals(player.getUniqueId().toString())) {
-			
+
+			int x = Math.abs(player.getLocation().getBlockX());
+			int z = Math.abs(player.getLocation().getBlockZ());
+
+			if(x < 512 && z < 512) {
+				player.sendMessage(ChatColor.RED + "You need to be 512 blocks away from spawn before setting team rally");
+				return;
+			}
+
 			faction.setRally(loc);
 			faction.setRallyWorld(loc.getWorld().getName());
 			for(Player p : Bukkit.getServer().getOnlinePlayers()) {
@@ -688,7 +696,15 @@ public class PlayerFactionManager {
 		}
 		
 		if(faction.getCaptains().contains(player.getUniqueId().toString()) || faction.getLeader().equals(player.getUniqueId().toString())) {
-			
+
+			int x = Math.abs(player.getLocation().getBlockX());
+			int z = Math.abs(player.getLocation().getBlockZ());
+
+			if(x < 512 && z < 512) {
+				player.sendMessage(ChatColor.RED + "You need to be 512 blocks away from spawn before setting team hq");
+				return;
+			}
+
 			faction.setHq(loc);
 			faction.setHqWorld(loc.getWorld().getName());
 			

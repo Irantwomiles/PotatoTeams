@@ -1,11 +1,13 @@
 package me.iran.potato.run;
 
+import me.iran.potato.PotatoTeams;
 import me.iran.potato.factions.PlayerFaction;
 import me.iran.potato.factions.PlayerFactionManager;
 import me.iran.potato.util.CollectionsUtil;
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -67,6 +69,8 @@ public class TeleportRunnables extends BukkitRunnable {
 				if(CollectionsUtil.getCombat().get(p.getName()) <= 0) {
 					
 					CollectionsUtil.getCombat().remove(p.getName());
+
+
 					p.sendMessage(ChatColor.GREEN + "You can safely logout now");
 				}
 				
@@ -80,8 +84,21 @@ public class TeleportRunnables extends BukkitRunnable {
 				if(CollectionsUtil.getSpawn().get(p.getName()) <= 0) {
 					
 					CollectionsUtil.getSpawn().remove(p.getName());
-					p.sendMessage(ChatColor.GRAY + "Teleported Spawn");
+
 					CollectionsUtil.getSafe().add(p.getName());
+
+					int x = PotatoTeams.getInstance().getConfig().getInt("spawn.x");
+					int y = PotatoTeams.getInstance().getConfig().getInt("spawn.y");
+					int z = PotatoTeams.getInstance().getConfig().getInt("spawn.z");
+
+					String world = PotatoTeams.getInstance().getConfig().getString("safezone.world");
+
+					Location loc = new Location(Bukkit.getWorld(world), x, y, z);
+
+					p.teleport(loc);
+
+					p.sendMessage(ChatColor.GRAY + "Teleported to Spawn");
+
 				}
 				
 			}

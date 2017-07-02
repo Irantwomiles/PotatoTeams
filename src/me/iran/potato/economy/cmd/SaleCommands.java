@@ -2,6 +2,7 @@ package me.iran.potato.economy.cmd;
 
 import me.iran.potato.PotatoTeams;
 import me.iran.potato.economy.SaleManager;
+import me.iran.potato.util.CollectionsUtil;
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Material;
@@ -49,6 +50,16 @@ public class SaleCommands implements CommandExecutor {
 
 			Potion potion = null;
 
+			if(Integer.parseInt(args[0]) < 1) {
+				player.sendMessage(ChatColor.RED + "The amount that you want to sell must be more than 0");
+				return true;
+			}
+
+			if(Double.parseDouble(args[2]) < 0) {
+				player.sendMessage(ChatColor.RED + "Can't sell anything with negative gold");
+				return true;
+			}
+
 			switch(args[1]) {
 
 				case "strp2":
@@ -56,6 +67,7 @@ public class SaleCommands implements CommandExecutor {
 					potion = new Potion(PotionType.STRENGTH, 2);
 
 					try {
+
 						SaleManager.getManager().sellPotion(player, Double.parseDouble(args[2]), potion.toItemStack(1), Integer.parseInt(args[0]));
 
 					} catch(Exception e) {
@@ -163,6 +175,31 @@ public class SaleCommands implements CommandExecutor {
 
 			if(args.length < 3) {
 				player.sendMessage(ChatColor.RED + "/buy <amount> <item> <price>");
+				return true;
+			}
+
+			if(CollectionsUtil.getCombat().containsKey(player.getName())) {
+
+				int x = player.getLocation().getBlockX();
+				int z = player.getLocation().getBlockZ();
+
+				Math.abs(x);
+				Math.abs(z);
+
+				if(x < 512 && z < 512) {
+					player.sendMessage(org.bukkit.ChatColor.RED + "You need to be 512 blocks away from spawn before buying anything while combat tagged");
+					return true;
+				}
+			}
+
+
+			if(Integer.parseInt(args[0]) < 1) {
+				player.sendMessage(ChatColor.RED + "The amount that you want to buy must be more than 0");
+				return true;
+			}
+
+			if(Double.parseDouble(args[2]) < 0) {
+				player.sendMessage(ChatColor.RED + "Can't buy anything with negative gold");
 				return true;
 			}
 

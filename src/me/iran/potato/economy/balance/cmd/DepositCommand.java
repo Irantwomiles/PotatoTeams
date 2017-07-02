@@ -42,12 +42,21 @@ public class DepositCommand implements CommandExecutor {
 				int count = Integer.parseInt(args[0]);
 				
 				int stack = 0;
-				
+
+				if(count < 1) {
+					player.sendMessage(ChatColor.RED + "You can't deposit less than 1 gold");
+					return true;
+				}
+
+				/*
+				Renamed gold can be deposited again
+				 */
+
 				ItemStack item = new ItemStack(Material.GOLD_INGOT, 0);
-				
+
 				for(ItemStack it : player.getInventory().getContents()) {
 					
-					if(it != null && it.getType() == Material.GOLD_INGOT) {
+					if(it != null && it.getType() == Material.GOLD_INGOT && it.getItemMeta().getDisplayName() == null) {
 						stack = stack + it.getAmount();
 					}
 					
@@ -57,7 +66,7 @@ public class DepositCommand implements CommandExecutor {
 					player.sendMessage(ChatColor.RED + "You don't have " + count + " gold to deposit");
 					return true;
 				}
-				
+
 				item.setAmount(count);
 				
 				player.getInventory().removeItem(item);
