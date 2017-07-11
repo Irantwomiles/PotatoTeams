@@ -21,7 +21,6 @@ import me.iran.potato.spawn.SpawnProtection;
 import me.iran.potato.spawn.SpawnProtectionCommands;
 import me.iran.potato.warps.WarpCommand;
 
-import me.wilk3z.crystal.Crystal;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
@@ -36,7 +35,7 @@ public class PotatoTeams extends JavaPlugin {
 	
 	private TeleportRunnables run = new TeleportRunnables();
 
-	private SaveRunnable saveRunnable = new SaveRunnable();
+	//private SaveRunnable saveRunnable = new SaveRunnable();
 
 	private static PotatoTeams instance;
 	
@@ -54,10 +53,8 @@ public class PotatoTeams extends JavaPlugin {
 		instance = this;
 
 		getConfig().options().copyDefaults(true);
-		
-		saveConfig();
 
-		Crystal.registerPlugin(this);
+		saveConfig();
 
 		/**
 		 * playerfaction.yml file
@@ -151,6 +148,30 @@ public class PotatoTeams extends JavaPlugin {
 			log.sendMessage(ChatColor.GREEN + "[Potato] Generated economy.yml file");
 			
 		}
+
+		/**
+		 * spawnprotection.yml file
+		 */
+
+		file = new File(this.getDataFolder(), "spawnprotection.yml");
+
+		if(!file.exists()) {
+
+			file = new File(this.getDataFolder(), "spawnprotection.yml");
+
+			YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+			config.createSection("spawnprotection");
+
+			try {
+				config.save(file);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			log.sendMessage(ChatColor.GREEN + "[Potato] Generated spawnprotection.yml file");
+
+		}
 		
 		/**
 		 * Commands
@@ -163,6 +184,7 @@ public class PotatoTeams extends JavaPlugin {
 		getCommand("spawn").setExecutor(new SpawnProtectionCommands(this));
 		getCommand("sell").setExecutor(new SaleCommands(this));
 		getCommand("buy").setExecutor(new SaleCommands(this));
+		getCommand("price").setExecutor(new SaleCommands(this));
 		getCommand("balance").setExecutor(new BalanceCommand(this));
 		getCommand("deposit").setExecutor(new DepositCommand(this));
 		getCommand("withdraw").setExecutor(new WithdrawCommand(this));
@@ -190,7 +212,7 @@ public class PotatoTeams extends JavaPlugin {
 		 */
 		
 		run.runTaskTimer(this, 20, 20);
-		saveRunnable.runTaskTimer(this, 20, 20);
+		//saveRunnable.runTaskTimer(this, 20, 20);
 
 		getConfig().options().copyDefaults(true);
 		saveConfig();

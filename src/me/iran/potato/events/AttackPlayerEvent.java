@@ -6,10 +6,13 @@ import me.iran.potato.factions.PlayerFactionManager;
 import me.iran.potato.util.CollectionsUtil;
 
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.PotionSplashEvent;
 
 import java.util.Collection;
 
@@ -74,6 +77,28 @@ public class AttackPlayerEvent implements Listener {
 				player.sendMessage(ChatColor.RED + "Teleportation cancelled!");
 			}
 
+
+		}
+
+	}
+
+	@EventHandler
+	public void onSplash(PotionSplashEvent event) {
+
+		for(Entity entity : event.getAffectedEntities()) {
+
+			if(entity instanceof  Player && event.getEntity().getShooter() instanceof Player) {
+
+				Player player = (Player) entity;
+
+				Player shooter = (Player) event.getEntity().getShooter();
+
+				if(!player.getName().equalsIgnoreCase(shooter.getName())) {
+					if(CollectionsUtil.getSafe().contains(player.getName())) {
+						event.getAffectedEntities().remove(entity);
+					}
+				}
+			}
 
 		}
 

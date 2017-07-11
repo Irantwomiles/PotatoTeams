@@ -19,15 +19,16 @@ commands:
     description: buy item
   sell:
     description: sell items
+  price:
+    description: get the cheapest price of an item
   balance:
     description: get your balance
     aliases: [bal, $, mulla, money, chaching, dolla, dollars, dollasign, bank, makeitrain]
   deposit:
     description: deposit gold into your account
+    aliases: [d]
   withdraw:
     description: withdraw gold from your account
-  ct:
-    description: check combat tag
   go:
     description: warps
     aliases: [warp]

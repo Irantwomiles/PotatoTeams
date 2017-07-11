@@ -741,13 +741,25 @@ public class PlayerFactionManager {
 			player.sendMessage(ChatColor.RED + "You can't kick the leader!");
 			return;
 		} 
-		
+
+		if(faction.getCaptains().contains(player.getUniqueId().toString()) || faction.getLeader().equals(player.getUniqueId().toString())) {
+
+			if(faction.getMembers().contains(target) && !faction.getCaptains().contains(target) && !faction.getLeader().equals(target)) {
+
+				for(Player p : Bukkit.getServer().getOnlinePlayers()) {
+					if(faction.getMembers().contains(p.getUniqueId().toString())) {
+						p.sendMessage(ChatColor.RED + Bukkit.getOfflinePlayer(UUID.fromString(target)).getName() + " has been kicked from the team by " + player.getName());
+					}
+				}
+
+				faction.getMembers().remove(target);
+				return;
+			}
+
+		}
+
 		//Captain kicking player
-		if(faction.getCaptains().contains(player.getUniqueId().toString()) &&
-				
-				!faction.getLeader().equals(target) &&
-				
-				!faction.getCaptains().contains(target)) {
+		if(faction.getCaptains().contains(player.getUniqueId().toString()) && !faction.getLeader().equals(target) && !faction.getCaptains().contains(target)) {
 			
 			if(faction.getMembers().contains(target)) {
 				faction.getMembers().remove(target);
@@ -883,8 +895,8 @@ public class PlayerFactionManager {
 
 		String ff = ChatColor.RED.toString() + "Off";
 
-		if(faction.isFf() == true) {
-			rally = ChatColor.GREEN.toString() + "On";
+		if(faction.isFf()) {
+			ff = ChatColor.GREEN.toString() + "On";
 		}
 		
 		String msg = " " + " \n" +
@@ -1039,7 +1051,6 @@ public class PlayerFactionManager {
 		player.sendMessage(msg);
 
 		for(String p : faction.getMembers()) {
-
 
 			OfflinePlayer pl = Bukkit.getOfflinePlayer(UUID.fromString(p));
 

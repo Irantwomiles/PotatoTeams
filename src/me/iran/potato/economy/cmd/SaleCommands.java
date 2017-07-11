@@ -1,10 +1,11 @@
 package me.iran.potato.economy.cmd;
 
 import me.iran.potato.PotatoTeams;
+import me.iran.potato.economy.Sale;
 import me.iran.potato.economy.SaleManager;
 import me.iran.potato.util.CollectionsUtil;
-import net.md_5.bungee.api.ChatColor;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -281,7 +282,7 @@ public class SaleCommands implements CommandExecutor {
 					default:
 						try {
 							SaleManager.getManager().buyItem(player, new ItemStack(Material.getMaterial(args[1].toUpperCase()), Integer.parseInt(args[0])), Double.parseDouble(args[2]), Integer.parseInt(args[0]));
-						} catch(NumberFormatException e) {
+						} catch(Exception e) {
 							player.sendMessage(ChatColor.RED + "/buy <amount> <item> <price>");
 						}
 
@@ -289,7 +290,170 @@ public class SaleCommands implements CommandExecutor {
 			}
 
 		}
-		
+
+		if(cmd.getName().equalsIgnoreCase("price")) {
+
+            if(args.length < 1) {
+                player.sendMessage(ChatColor.RED + "/price <item>");
+                return true;
+            }
+
+            Potion potion = null;
+
+            Sale sale;
+
+            switch(args[0]) {
+
+                case "strp2":
+
+                    potion = new Potion(PotionType.STRENGTH, 2);
+
+                    try {
+
+                        double price = SaleManager.getManager().getCheapestSale(potion.toItemStack(1));
+
+                        sale = SaleManager.getManager().getSaleByPrice(price);
+
+                        player.sendMessage(ChatColor.GOLD + "Item: " + ChatColor.GRAY + "Strength Potion 2" + "\n" +
+                                              ChatColor.GOLD + "Stock: " + ChatColor.GRAY + sale.getCount() + "\n" +
+                                              ChatColor.GOLD + "Price: " + ChatColor.GRAY + sale.getPrice());
+
+                    } catch(Exception e) {
+                        player.sendMessage(ChatColor.RED + "/price <item>");
+                    }
+                    break;
+                case "strp":
+
+                    potion = new Potion(PotionType.STRENGTH, 1);
+
+                    try {
+                        double price = SaleManager.getManager().getCheapestSale(potion.toItemStack(1));
+
+                        sale = SaleManager.getManager().getSaleByPrice(price);
+
+                        player.sendMessage(ChatColor.GOLD + "Item: " + ChatColor.GRAY + "Strength Potion 1" + "\n" +
+                                ChatColor.GOLD + "Stock: " + ChatColor.GRAY + sale.getCount() + "\n" +
+                                ChatColor.GOLD + "Price: " + ChatColor.GRAY + sale.getPrice());
+                    } catch(Exception e) {
+                        player.sendMessage(ChatColor.RED + "/price <item>");
+                    }
+                    break;
+                case "swp2":
+                    potion = new Potion(PotionType.SPEED, 2);
+
+                    try {
+                        double price = SaleManager.getManager().getCheapestSale(potion.toItemStack(1));
+
+                        sale = SaleManager.getManager().getSaleByPrice(price);
+
+                        player.sendMessage(ChatColor.GOLD + "Item: " + ChatColor.GRAY + "Speed Potion 2" + "\n" +
+                                ChatColor.GOLD + "Stock: " + ChatColor.GRAY + sale.getCount() + "\n" +
+                                ChatColor.GOLD + "Price: " + ChatColor.GRAY + sale.getPrice());
+                    } catch(Exception e) {
+                        player.sendMessage(ChatColor.RED + "/price <item>");
+                    }
+                    break;
+                case "swp":
+
+                    potion = new Potion(PotionType.SPEED, 1);
+
+                    try {
+                        double price = SaleManager.getManager().getCheapestSale(potion.toItemStack(1));
+
+                        sale = SaleManager.getManager().getSaleByPrice(price);
+
+                        player.sendMessage(ChatColor.GOLD + "Item: " + ChatColor.GRAY + "Speed Potion 1" + "\n" +
+                                ChatColor.GOLD + "Stock: " + ChatColor.GRAY + sale.getCount() + "\n" +
+                                ChatColor.GOLD + "Price: " + ChatColor.GRAY + sale.getPrice());
+                    } catch(Exception e) {
+                        player.sendMessage(ChatColor.RED + "/price <item>");
+                    }
+                    break;
+                case "frp12":
+                    potion = new Potion(PotionType.FIRE_RESISTANCE);
+                    potion.setHasExtendedDuration(true);
+
+                    try {
+                        double price = SaleManager.getManager().getCheapestSale(potion.toItemStack(1));
+
+                        sale = SaleManager.getManager().getSaleByPrice(price);
+
+                        player.sendMessage(ChatColor.GOLD + "Item: " + ChatColor.GRAY + "Fire Res Extended" + "\n" +
+                                ChatColor.GOLD + "Stock: " + ChatColor.GRAY + sale.getCount() + "\n" +
+                                ChatColor.GOLD + "Price: " + ChatColor.GRAY + sale.getPrice());
+                    } catch(Exception e) {
+                        player.sendMessage(ChatColor.RED + "/price <item>");
+                    }
+                    break;
+                case "dps2":
+                    potion = new Potion(PotionType.INSTANT_DAMAGE, 2);
+                    potion.setSplash(true);
+
+                    try {
+                        double price = SaleManager.getManager().getCheapestSale(potion.toItemStack(1));
+
+                        sale = SaleManager.getManager().getSaleByPrice(price);
+
+                        player.sendMessage(ChatColor.GOLD + "Item: " + ChatColor.GRAY + "Damage Potion Splash 2" + "\n" +
+                                ChatColor.GOLD + "Stock: " + ChatColor.GRAY + sale.getCount() + "\n" +
+                                ChatColor.GOLD + "Price: " + ChatColor.GRAY + sale.getPrice());
+                    } catch(Exception e) {
+                        player.sendMessage(ChatColor.RED + "/price <item>");
+                    }
+                    break;
+                case "soup":
+                    try {
+                        ItemStack item = new ItemStack(Material.MUSHROOM_SOUP);
+
+                        double price = SaleManager.getManager().getCheapestSale(item);
+
+                        sale = SaleManager.getManager().getSaleByPrice(price);
+
+                        player.sendMessage(ChatColor.GOLD + "Item: " + ChatColor.GRAY + "Mushroom Soup" + "\n" +
+                                ChatColor.GOLD + "Stock: " + ChatColor.GRAY + sale.getCount() + "\n" +
+                                ChatColor.GOLD + "Price: " + ChatColor.GRAY + sale.getPrice());
+                    } catch(Exception e) {
+                        player.sendMessage(ChatColor.RED + "/price <item>");
+                    }
+                    break;
+                case "mooshegg":
+                    try {
+                        ItemStack item = new ItemStack(Material.MONSTER_EGG, 1, (short) 96);
+
+                        double price = SaleManager.getManager().getCheapestSale(item);
+
+                        sale = SaleManager.getManager().getSaleByPrice(price);
+
+                        player.sendMessage(ChatColor.GOLD + "Item: " + ChatColor.GRAY + "Mooshroom Egg" + "\n" +
+                                ChatColor.GOLD + "Stock: " + ChatColor.GRAY + sale.getCount() + "\n" +
+                                ChatColor.GOLD + "Price: " + ChatColor.GRAY + sale.getPrice());
+                    } catch(Exception e) {
+                        player.sendMessage(ChatColor.RED + "/price <item>");
+                    }
+                    break;
+                default:
+                    try {
+
+                        ItemStack item = new ItemStack(Material.getMaterial(args[0].toUpperCase()));
+
+                        double price = SaleManager.getManager().getCheapestSale(item);
+
+                        sale = SaleManager.getManager().getSaleByPrice(price);
+
+                        player.sendMessage(ChatColor.GOLD + "Item: " + ChatColor.GRAY + sale.getItem().getType().toString() + "\n" +
+                                ChatColor.GOLD + "Stock: " + ChatColor.GRAY + sale.getCount() + "\n" +
+                                ChatColor.GOLD + "Price: " + ChatColor.GRAY + sale.getPrice());
+                    } catch(Exception e) {
+                        player.sendMessage(ChatColor.RED + "/price <item>");
+                    }
+
+                    break;
+            }
+
+		}
+
 		return true;
 	}
+
+
 }

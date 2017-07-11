@@ -31,14 +31,14 @@ public class WithdrawCommand implements CommandExecutor {
 		Player player = (Player) sender;
 		
 		if(cmd.getName().equalsIgnoreCase("withdraw")) {
-			
+
+			if(args.length < 1) {
+				player.sendMessage(ChatColor.RED + "/withdraw <amount>");
+				return true;
+			}
+
 			try{
-				
-				if(args.length < 1) {
-					player.sendMessage(ChatColor.RED + "/withdraw <number>");
-					return true;
-				}
-				
+
 				ItemStack item = new ItemStack(Material.GOLD_INGOT, 0);
 
 				if(balance.getBalance(player.getUniqueId().toString()) < 1) {

@@ -15,7 +15,9 @@ public class Sale {
 	static int id = 0;
 	
 	private int ID;
-	
+
+	public Sale () {}
+
 	public Sale(ItemStack item, String seller, double price, int count) {
 		this.item = item;
 		this.seller = seller;

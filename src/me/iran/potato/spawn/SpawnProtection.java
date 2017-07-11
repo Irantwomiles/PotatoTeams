@@ -3,21 +3,27 @@ package me.iran.potato.spawn;
 import me.iran.potato.PotatoTeams;
 import me.iran.potato.util.CollectionsUtil;
 import net.md_5.bungee.api.ChatColor;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+
+import java.io.File;
+import java.util.List;
 
 public class SpawnProtection implements Listener {
 
 	PotatoTeams plugin;
-	
+
+	private File file = null;
+
 	public SpawnProtection(PotatoTeams plugin) {
 		this.plugin = plugin;
 	}
@@ -28,29 +34,6 @@ public class SpawnProtection implements Listener {
 		Player player = event.getPlayer();
 
 		if(!player.hasPlayedBefore()) {
-
-			int x = PotatoTeams.getInstance().getConfig().getInt("spawn.x");
-			int y = PotatoTeams.getInstance().getConfig().getInt("spawn.y");
-			int z = PotatoTeams.getInstance().getConfig().getInt("spawn.z");
-
-			String world = PotatoTeams.getInstance().getConfig().getString("safezone.world");
-
-			Location loc = new Location(Bukkit.getWorld(world), x, y, z);
-
-			player.teleport(loc);
-
-		}
-	}
-
-	@EventHandler
-	public void onRespawn(PlayerRespawnEvent event) {
-		Player player = event.getPlayer();
-
-		if(player.getBedSpawnLocation() == null) {
-
-			if(!CollectionsUtil.getSafe().contains(player.getName())) {
-				CollectionsUtil.getSafe().add(player.getName());
-			}
 
 			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(PotatoTeams.getInstance(), new Runnable() {
 				@Override
@@ -65,7 +48,42 @@ public class SpawnProtection implements Listener {
 
 					player.teleport(loc);
 				}
-			}, 10L);
+			}, 1L);
+
+		}
+
+		if(containsPlayer(player)) {
+			if(isInsideSpawn(player.getLocation())) {
+				removeFromFile(player);
+			}
+		}
+
+	}
+
+	@EventHandler
+	public void onRespawn(PlayerRespawnEvent event) {
+		Player player = event.getPlayer();
+
+		if(player.getBedSpawnLocation() == null) {
+
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(PotatoTeams.getInstance(), new Runnable() {
+				@Override
+				public void run() {
+					int x = PotatoTeams.getInstance().getConfig().getInt("spawn.x");
+					int y = PotatoTeams.getInstance().getConfig().getInt("spawn.y");
+					int z = PotatoTeams.getInstance().getConfig().getInt("spawn.z");
+
+					String world = PotatoTeams.getInstance().getConfig().getString("safezone.world");
+
+					Location loc = new Location(Bukkit.getWorld(world), x, y, z);
+
+					player.teleport(loc);
+				}
+			}, 1L);
+
+			if(!CollectionsUtil.getSafe().contains(player.getName())) {
+				CollectionsUtil.getSafe().add(player.getName());
+			}
 		}
 	}
 
@@ -80,7 +98,96 @@ public class SpawnProtection implements Listener {
 		}
 		
 	}
-	
+
+	@EventHandler
+	public void onQuit(PlayerQuitEvent event) {
+
+		Player player = event.getPlayer();
+
+		if(CollectionsUtil.getSafe().contains(player.getName()) && isInsideSpawn(player.getLocation())) {
+			addToFile(player);
+			CollectionsUtil.getSafe().remove(player.getName());
+		}
+
+	}
+
+	private void addToFile(Player player) {
+
+		file = new File(PotatoTeams.getInstance().getDataFolder(), "spawnprotection.yml");
+
+		if(file.exists()) {
+
+			YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+			List<String> list = config.getStringList("spawnprotection");
+
+			if(!list.contains(player.getUniqueId().toString()) && CollectionsUtil.getSafe().contains(player.getName())) {
+
+				list.add(player.getUniqueId().toString());
+
+				config.set("spawnprotection", list);
+
+				try {
+					config.save(file);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+
+		}
+	}
+
+	private void removeFromFile(Player player) {
+
+		file = new File(PotatoTeams.getInstance().getDataFolder(), "spawnprotection.yml");
+
+		if(file.exists()) {
+
+			YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+			List<String> list = config.getStringList("spawnprotection");
+
+			if(list.contains(player.getUniqueId().toString())) {
+
+				list.remove(player.getUniqueId().toString());
+
+				config.set("spawnprotection", list);
+
+				CollectionsUtil.getSafe().add(player.getName());
+
+				try {
+					config.save(file);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+
+		}
+	}
+
+	private boolean containsPlayer(Player player) {
+
+		file = new File(PotatoTeams.getInstance().getDataFolder(), "spawnprotection.yml");
+
+		if(file.exists()) {
+
+			YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+			List<String> list = config.getStringList("spawnprotection");
+
+			if(list.contains(player.getUniqueId().toString())) {
+				return true;
+			} else {
+				return false;
+			}
+
+		}
+
+		return false;
+	}
+
 	@EventHandler
 	public void onDamager(EntityDamageByEntityEvent event) {
 		

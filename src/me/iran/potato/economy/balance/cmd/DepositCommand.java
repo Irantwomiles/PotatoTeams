@@ -33,10 +33,36 @@ public class DepositCommand implements CommandExecutor {
 		if(cmd.getName().contentEquals("deposit")) {
 			
 			if(args.length < 1) {
-				player.sendMessage(ChatColor.RED + "/deposit <number>");
+				player.sendMessage(ChatColor.RED + "/deposit <amount>");
 				return true;
 			}
-			
+
+			if(args[0].equalsIgnoreCase("all")) {
+
+				int stack = 0;
+
+				ItemStack item = new ItemStack(Material.GOLD_INGOT, 0);
+
+				for(ItemStack it : player.getInventory().getContents()) {
+
+					if(it != null && it.getType() == Material.GOLD_INGOT && it.getItemMeta().getDisplayName() == null) {
+						stack = stack + it.getAmount();
+					}
+
+				}
+
+				item.setAmount(stack);
+
+				player.getInventory().removeItem(item);
+
+				balance.updateBalance(player.getUniqueId().toString(), balance.getBalance(player.getUniqueId().toString()) + stack);
+
+				player.sendMessage(ChatColor.GOLD + "Added " + stack + " gold to your balance. Your new balance is " + balance.getBalance(player.getUniqueId().toString()));
+
+				return true;
+
+			}
+
 			try {
 				
 				int count = Integer.parseInt(args[0]);
@@ -76,11 +102,9 @@ public class DepositCommand implements CommandExecutor {
 				player.sendMessage(ChatColor.GOLD + "Added " + count + " gold to your balance. Your new balance is " + balance.getBalance(player.getUniqueId().toString()));
 				
 			} catch (NumberFormatException e) {
-				player.sendMessage(ChatColor.RED + "/deposit <number>");
+				player.sendMessage(ChatColor.RED + "/deposit <amount>");
 			}
-			
 
-			
 		}
 		
 		return true;

@@ -34,6 +34,5 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="system" level="project" />
-    <orderEntry type="library" name="Crystal" level="project" />
   </component>
 </module>

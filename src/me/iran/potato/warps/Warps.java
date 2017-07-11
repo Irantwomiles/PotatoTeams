@@ -128,11 +128,11 @@ public class Warps{
         }
     }
 
-    public List<String> getWarps(Player player) {
+    public List<Location> getWarps(Player player) {
 
         file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerInfo", player.getUniqueId().toString() + ".yml");
 
-        List<String> warps = new ArrayList<>();
+        List<Location> warps = new ArrayList<>();
 
         if(file.exists()) {
 
@@ -140,8 +140,23 @@ public class Warps{
 
             if (config.contains("warps")) {
 
-                for (String s : config.getConfigurationSection("warps").getKeys(false)) {
-                    warps.add(s);
+                for (String warp : config.getConfigurationSection("warps").getKeys(false)) {
+
+                    int x = config.getInt("warps." + warp + ".x");
+                    int y = config.getInt("warps." + warp + ".y");
+                    int z = config.getInt("warps." + warp + ".z");
+
+                    float pitch = config.getFloat("warps." + warp + ".pitch");
+                    float yaw = config.getFloat("warps." + warp + ".yaw");
+
+                    String world = config.getString("warps." + warp + ".world");
+
+                    Location loc = new Location(Bukkit.getWorld(world),x, y, z);
+
+                    loc.setPitch(pitch);
+                    loc.setYaw(yaw);
+
+                    warps.add(loc);
                 }
             }
         }
@@ -215,6 +230,7 @@ public class Warps{
                             if(!faction.getMembers().contains(near.getUniqueId().toString())) {
 
                                 CollectionsUtil.getWarp().put(player.getName(), 10);
+                                CollectionsUtil.getWarpName().put(player.getName(), warp);
 
                                 player.sendMessage(ChatColor.GRAY + "There are enemy players near you, please don't move or get damaged for 10 seconds!");
 
@@ -223,6 +239,7 @@ public class Warps{
 
                         } else {
                             CollectionsUtil.getWarp().put(player.getName(), 10);
+                            CollectionsUtil.getWarpName().put(player.getName(), warp);
 
                             player.sendMessage(ChatColor.GRAY + "There are enemy players near you, please don't move or get damaged for 10 seconds!");
 
@@ -239,4 +256,35 @@ public class Warps{
 
         }
     }
+
+    public void forceTp(Player player, String warp) {
+        file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerInfo", player.getUniqueId().toString() + ".yml");
+
+        if(file.exists()) {
+
+            YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+
+            if(config.contains("warps." + warp)) {
+
+                int x = config.getInt("warps." + warp + ".x");
+                int y = config.getInt("warps." + warp + ".y");
+                int z = config.getInt("warps." + warp + ".z");
+
+                float pitch = config.getFloat("warps." + warp + ".pitch");
+                float yaw = config.getFloat("warps." + warp + ".yaw");
+
+                String world = config.getString("warps." + warp + ".world");
+
+                Location loc = new Location(Bukkit.getWorld(world),x, y, z);
+
+                loc.setPitch(pitch);
+                loc.setYaw(yaw);
+
+                player.teleport(loc);
+            }
+
+        }
+    }
+
 }

@@ -65,12 +65,12 @@ public class SpawnProtectionCommands implements CommandExecutor {
 			
 			if(player.hasPermission("potatoteams.spawn.setspawn")) {
 
-				PotatoTeams.getInstance().getConfig().set("spawn.x", player.getLocation().getBlockX());
-				PotatoTeams.getInstance().getConfig().set("spawn.y", player.getLocation().getBlockY());
-				PotatoTeams.getInstance().getConfig().set("spawn.z", player.getLocation().getBlockZ());
+				PotatoTeams.getInstance().getConfig().set("spawn.x", player.getLocation().getX());
+				PotatoTeams.getInstance().getConfig().set("spawn.y", player.getLocation().getY());
+				PotatoTeams.getInstance().getConfig().set("spawn.z", player.getLocation().getZ());
 				
 				PotatoTeams.getInstance().saveConfig();
-				
+
 				player.sendMessage(ChatColor.GREEN + "Set spawn!");
 			} 
 			
@@ -79,9 +79,9 @@ public class SpawnProtectionCommands implements CommandExecutor {
 		if(cmd.getName().equalsIgnoreCase("spawn")) {
 
 			if(spawn.isInsideSpawn(player.getLocation()) && CollectionsUtil.getSafe().contains(player.getName())) {
-				int x = PotatoTeams.getInstance().getConfig().getInt("spawn.x");
-				int y = PotatoTeams.getInstance().getConfig().getInt("spawn.y");
-				int z = PotatoTeams.getInstance().getConfig().getInt("spawn.z");
+				double x = PotatoTeams.getInstance().getConfig().getDouble("spawn.x");
+				double y = PotatoTeams.getInstance().getConfig().getDouble("spawn.y");
+				double z = PotatoTeams.getInstance().getConfig().getDouble("spawn.z");
 
 				String world = PotatoTeams.getInstance().getConfig().getString("safezone.world");
 
@@ -101,9 +101,9 @@ public class SpawnProtectionCommands implements CommandExecutor {
 	
 	private void teleportSpawn(Player player) {
 
-		int x = PotatoTeams.getInstance().getConfig().getInt("spawn.x");
-		int y = PotatoTeams.getInstance().getConfig().getInt("spawn.y");
-		int z = PotatoTeams.getInstance().getConfig().getInt("spawn.z");
+		double x = PotatoTeams.getInstance().getConfig().getInt("spawn.x");
+		double y = PotatoTeams.getInstance().getConfig().getInt("spawn.y");
+		double z = PotatoTeams.getInstance().getConfig().getInt("spawn.z");
 		
 		String world = PotatoTeams.getInstance().getConfig().getString("safezone.world");
 		

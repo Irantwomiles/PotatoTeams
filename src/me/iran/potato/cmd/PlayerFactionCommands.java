@@ -39,6 +39,7 @@ public class PlayerFactionCommands implements CommandExecutor {
 					+ ChatColor.GRAY + "- /team promote <player> - Promote a player to Captain [Leader only]\n"
 					+ ChatColor.GRAY + "- /team demote <player> - Demote a player to member [Leader only]\n"
 					+ ChatColor.GRAY + "- /team ff - Toggle friendly fire\n"
+					+ ChatColor.GRAY + "- /team disband - Disband your team. Can't be undone!\n"
 					+ ChatColor.GRAY + "- /team kick <player> - Kick a player from your team\n"
 					
 					+ ChatColor.DARK_AQUA + "Everyone\n\n"

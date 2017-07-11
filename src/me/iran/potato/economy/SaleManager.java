@@ -402,7 +402,23 @@ public class SaleManager {
 		return null;
 		
 	}
-	
+
+	public double getCheapestSale(ItemStack item) {
+
+		ArrayList<Double> s = new ArrayList<>();
+
+		for(Sale sale : sales) {
+			if(sale.getItem().getType() == item.getType() && sale.getItem().getData().getData() == item.getData().getData()) {
+				s.add(sale.getPrice());
+			}
+		}
+
+		Collections.sort(s);
+
+		return s.get(0);
+
+	}
+
 	public ArrayList<Sale> getSalesByPlayer(Player player) {
 		
 		ArrayList<Sale> s = new ArrayList<>();

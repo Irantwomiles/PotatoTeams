@@ -1,9 +1,11 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="PotatoTeams">
-    <output-path>$PROJECT_DIR$/../../../Localhost 23/plugins</output-path>
+    <output-path>$PROJECT_DIR$/../../BungeeCord/ServerA/plugins</output-path>
     <root id="archive" name="PotatoTeams.jar">
       <element id="module-output" name="PotatoTeams" />
       <element id="library" level="module" name="sportkb_kohi.jar" module-name="PotatoTeams" />
+      <element id="file-copy" path="$PROJECT_DIR$/config.yml" />
+      <element id="file-copy" path="$PROJECT_DIR$/plugin.yml" />
     </root>
   </artifact>
 </component>

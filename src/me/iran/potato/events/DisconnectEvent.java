@@ -9,6 +9,7 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class DisconnectEvent implements Listener {
@@ -26,7 +27,9 @@ public class DisconnectEvent implements Listener {
 		/*
 		 * Quit while in combat
 		 */
-		
+
+		event.setQuitMessage(null);
+
 		Player player = event.getPlayer();
 
 		if(CollectionsUtil.getCombat().containsKey(player.getName())) {
@@ -49,4 +52,9 @@ public class DisconnectEvent implements Listener {
 
 	}
 
+
+	@EventHandler
+	public void onJoin(PlayerJoinEvent event) {
+		event.setJoinMessage(null);
+	}
 }

@@ -19,6 +19,8 @@ public class CollectionsUtil {
 
 	private static HashMap<String, Integer> warp = new HashMap<>();
 
+	private static HashMap<String, String> warpName = new HashMap<>();
+
 	public static HashMap<String, Integer> getTeleportRally() {
 		return teleportRally;
 	}
@@ -45,5 +47,9 @@ public class CollectionsUtil {
 
 	public static HashMap<String, Integer> getWarp() {
 		return warp;
+	}
+
+	public static HashMap<String, String> getWarpName() {
+		return warpName;
 	}
 }

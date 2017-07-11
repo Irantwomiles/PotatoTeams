@@ -9,8 +9,6 @@ public class SaveRunnable extends BukkitRunnable {
 
     private int timer = (3600 * 2);
 
-    //private ConsoleCommandSender log = PotatoTeams.getInstance().getServer().getConsoleSender();
-
     @Override
     public void run() {
 

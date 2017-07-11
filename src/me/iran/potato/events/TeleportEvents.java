@@ -43,6 +43,20 @@ public class TeleportEvents implements Listener {
 				player.sendMessage(ChatColor.RED + "Teleportation canceled!");
 			}
 		}
+
+		if(CollectionsUtil.getWarp().containsKey(player.getName())) {
+			if(!(event.getFrom().getBlockX() == event.getTo().getBlockX() && event.getFrom().getBlockY() == event.getTo().getBlockY() && event.getFrom().getBlockZ() == event.getTo().getBlockZ())) {
+				CollectionsUtil.getWarp().remove(player.getName());
+
+				try {
+					CollectionsUtil.getWarpName().remove(player.getName());
+				} catch(Exception e) {
+
+				}
+
+				player.sendMessage(ChatColor.RED + "Teleportation canceled!");
+			}
+		}
 	}
 	
 	/*
@@ -65,6 +79,14 @@ public class TeleportEvents implements Listener {
 		if(CollectionsUtil.getSpawn().containsKey(player.getName())) {
 			CollectionsUtil.getSpawn().remove(player.getName());
 		}
-		
+
+		if(CollectionsUtil.getWarpName().containsKey(player.getName())) {
+			CollectionsUtil.getWarpName().remove(player.getName());
+		}
+
+		if(CollectionsUtil.getWarp().containsKey(player.getName())) {
+			CollectionsUtil.getWarp().remove(player.getName());
+		}
+
 	}
 }

@@ -4,6 +4,7 @@ import me.iran.potato.PotatoTeams;
 import me.iran.potato.factions.PlayerFaction;
 import me.iran.potato.factions.PlayerFactionManager;
 import me.iran.potato.util.CollectionsUtil;
+import me.iran.potato.warps.Warps;
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Bukkit;
@@ -12,6 +13,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class TeleportRunnables extends BukkitRunnable {
+
+	private Warps warp = new Warps();
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -70,8 +73,7 @@ public class TeleportRunnables extends BukkitRunnable {
 					
 					CollectionsUtil.getCombat().remove(p.getName());
 
-
-					p.sendMessage(ChatColor.GREEN + "You can safely logout now");
+					p.sendMessage(ChatColor.GRAY + "You can safely logout now");
 				}
 				
 			}
@@ -87,9 +89,9 @@ public class TeleportRunnables extends BukkitRunnable {
 
 					CollectionsUtil.getSafe().add(p.getName());
 
-					int x = PotatoTeams.getInstance().getConfig().getInt("spawn.x");
-					int y = PotatoTeams.getInstance().getConfig().getInt("spawn.y");
-					int z = PotatoTeams.getInstance().getConfig().getInt("spawn.z");
+					double x = PotatoTeams.getInstance().getConfig().getInt("spawn.x");
+					double y = PotatoTeams.getInstance().getConfig().getInt("spawn.y");
+					double z = PotatoTeams.getInstance().getConfig().getInt("spawn.z");
 
 					String world = PotatoTeams.getInstance().getConfig().getString("safezone.world");
 
@@ -111,6 +113,11 @@ public class TeleportRunnables extends BukkitRunnable {
 				if(CollectionsUtil.getWarp().get(p.getName()) <= 0) {
 
 					CollectionsUtil.getWarp().remove(p.getName());
+
+					warp.forceTp(p, CollectionsUtil.getWarpName().get(p.getName()));
+
+					CollectionsUtil.getWarpName().remove(p.getName());
+
 					p.sendMessage(ChatColor.GRAY + "Teleported to warp");
 				}
 
