@@ -179,14 +179,14 @@ public class SaleManager {
 	@SuppressWarnings("deprecation")
 	public void sellItem(Player player, double price, ItemStack item, int count) {
 		
-		for(Sale sale : getSpecificItemSaleList(item)) {
+		/*for(Sale sale : getSpecificItemSaleList(item)) {
 			
 			if(sale.getPrice() == price) {
 				player.sendMessage(ChatColor.RED + "A " + item.getType().toString() + " with that price is already in the market");
 				return;
 			}
 			
-		}
+		}*/
 
 		int stack = 0;
 		
@@ -222,14 +222,14 @@ public class SaleManager {
 	@SuppressWarnings("deprecation")
 	public void sellPotion(final Player player, double price, ItemStack item, int count) {
 		
-		for(Sale sale : getSpecificItemSaleList(item)) {
+		/*for(Sale sale : getSpecificItemSaleList(item)) {
 			
 			if(sale.getPrice() == price) {
 				player.sendMessage(ChatColor.RED + "A " + item.getType().toString() + " with that price is already in the market");
 				return;
 			}
 			
-		}
+		}*/
 
 		int stack = 0;
 		
@@ -401,6 +401,16 @@ public class SaleManager {
 		
 		return null;
 		
+	}
+	
+	public Sale getSaleById(int id) {
+		for(Sale sale : sales) {
+			if(sale.getId() == id) {
+				return sale;
+			}
+		}
+		
+		return null;
 	}
 
 	public double getCheapestSale(ItemStack item) {

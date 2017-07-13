@@ -109,10 +109,10 @@ public class SpawnProtectionCommands implements CommandExecutor {
 		
 		Location loc = new Location(Bukkit.getWorld(world), x, y, z);
 
-		if(CollectionsUtil.getCombat().containsKey(player.getName())) {
+	/*	if(CollectionsUtil.getCombat().containsKey(player.getName())) {
 			player.sendMessage(ChatColor.RED + "Can't teleport while in combat (" + CollectionsUtil.getCombat().get(player.getName()) + " seconds)");
 			return;
-		}
+		}*/
 		
 		for (Entity p : player.getNearbyEntities(10, 10, 10)) {
 			

@@ -14,6 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 public class PlayerFactionManager {
@@ -923,7 +924,7 @@ public class PlayerFactionManager {
 				
 				if(pl.isOnline()) {
 
-					onlineSuffix = ChatColor.GRAY + " - " + ((int) (((Player) pl).getHealth() / 20 * 100)) + "%";
+					onlineSuffix = ChatColor.GRAY + " - " + ((int) (((CraftPlayer) pl).getHealth() / 20 * 100)) + "%";
 
 					player.sendMessage("  " + name + onlineSuffix);
 				} else {
@@ -933,7 +934,7 @@ public class PlayerFactionManager {
 			} else {
 				if(pl.isOnline()) {
 
-					onlineSuffix = ChatColor.GRAY + " - " + ((int) (((Player) pl).getHealth() / 20 * 100)) + "%";
+					onlineSuffix = ChatColor.GRAY + " - " + ((int) (((CraftPlayer) pl).getHealth() / 20 * 100)) + "%";
 
 					player.sendMessage("  " + name + onlineSuffix);
 				} else {
@@ -995,7 +996,7 @@ public class PlayerFactionManager {
 				
 				if(pl.isOnline()) {
 
-					onlineSuffix = ChatColor.GRAY + " - " + ((int) (((Player) pl).getHealth() / 20 * 100)) + "%";
+					onlineSuffix = ChatColor.GRAY + " - " + ((int) (((CraftPlayer) pl).getHealth() / 20 * 100)) + "%";
 
 					player.sendMessage("  " +name + onlineSuffix);
 				} else {
@@ -1004,7 +1005,7 @@ public class PlayerFactionManager {
 				
 			} else {
 				if(pl.isOnline()) {
-					onlineSuffix = ChatColor.GRAY + " - " + ((int) (((Player) pl).getHealth() / 20 * 100)) + "%";
+					onlineSuffix = ChatColor.GRAY + " - " + ((int) (((CraftPlayer) pl).getHealth() / 20 * 100)) + "%";
 					player.sendMessage("  " + name + onlineSuffix);
 				} else {
 					player.sendMessage("  " + name + offlineSuffix);
@@ -1063,7 +1064,7 @@ public class PlayerFactionManager {
 				name = ChatColor.DARK_AQUA + pl.getName();
 
 				if(pl.isOnline()) {
-					onlineSuffix = ChatColor.GRAY + " - " + ((int) (((Player) pl).getHealth() / 20 * 100)) + "%";
+					onlineSuffix = ChatColor.GRAY + " - " + ((int) (((CraftPlayer) pl).getHealth() / 20 * 100)) + "%";
 					player.sendMessage("  " +name + onlineSuffix);
 				} else {
 					player.sendMessage("  " +name + offlineSuffix);
@@ -1071,7 +1072,7 @@ public class PlayerFactionManager {
 
 			} else {
 				if(pl.isOnline()) {
-					onlineSuffix = ChatColor.GRAY + " - " + ((int) (((Player) pl).getHealth() / 20 * 100)) + "%";
+					onlineSuffix = ChatColor.GRAY + " - " + ((int) (((CraftPlayer) pl).getHealth() / 20 * 100)) + "%";
 					player.sendMessage("  " + name + onlineSuffix);
 				} else {
 					player.sendMessage("  " + name + offlineSuffix);

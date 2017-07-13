@@ -17,6 +17,7 @@ import me.iran.potato.events.TeleportEvents;
 import me.iran.potato.factions.PlayerFactionManager;
 import me.iran.potato.factions.SaveRunnable;
 import me.iran.potato.run.TeleportRunnables;
+import me.iran.potato.salvage.Salvaging;
 import me.iran.potato.spawn.SpawnProtection;
 import me.iran.potato.spawn.SpawnProtectionCommands;
 import me.iran.potato.warps.WarpCommand;
@@ -200,6 +201,8 @@ public class PotatoTeams extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new DisconnectEvent(this), this);
 		Bukkit.getPluginManager().registerEvents(new SpawnProtection(this), this);
 		Bukkit.getPluginManager().registerEvents(new Balance(this), this);
+		Bukkit.getPluginManager().registerEvents(new Salvaging(this), this);
+		
 		/**
 		 * Things needed to load
 		 */
