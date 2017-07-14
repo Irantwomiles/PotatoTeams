@@ -3,6 +3,7 @@ package me.iran.potato;
 import java.io.File;
 import java.io.IOException;
 
+import me.iran.potato.bottlexp.BottleXP;
 import me.iran.potato.cmd.PlayerFactionCommands;
 import me.iran.potato.economy.SaleManager;
 import me.iran.potato.economy.balance.Balance;
@@ -190,7 +191,7 @@ public class PotatoTeams extends JavaPlugin {
 		getCommand("deposit").setExecutor(new DepositCommand(this));
 		getCommand("withdraw").setExecutor(new WithdrawCommand(this));
 		getCommand("go").setExecutor(new WarpCommand(this));
-
+		getCommand("bottle").setExecutor(new BottleXP(this));
 		/**
 		 * Events
 		 */
@@ -202,7 +203,7 @@ public class PotatoTeams extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new SpawnProtection(this), this);
 		Bukkit.getPluginManager().registerEvents(new Balance(this), this);
 		Bukkit.getPluginManager().registerEvents(new Salvaging(this), this);
-		
+		Bukkit.getPluginManager().registerEvents(new BottleXP(this), this);
 		/**
 		 * Things needed to load
 		 */

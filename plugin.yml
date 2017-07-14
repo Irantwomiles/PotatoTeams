@@ -32,3 +32,5 @@ commands:
   go:
     description: warps
     aliases: [warp]
+  bottle:
+    description: bottle xp

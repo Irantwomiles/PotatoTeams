@@ -1,5 +1,7 @@
 package me.iran.potato.spawn;
 
+import me.iran.defystaff.DefyStaff;
+import me.iran.defystaff.commands.StaffMode;
 import me.iran.potato.PotatoTeams;
 import me.iran.potato.factions.PlayerFaction;
 import me.iran.potato.factions.PlayerFactionManager;
@@ -109,10 +111,17 @@ public class SpawnProtectionCommands implements CommandExecutor {
 		
 		Location loc = new Location(Bukkit.getWorld(world), x, y, z);
 
-	/*	if(CollectionsUtil.getCombat().containsKey(player.getName())) {
-			player.sendMessage(ChatColor.RED + "Can't teleport while in combat (" + CollectionsUtil.getCombat().get(player.getName()) + " seconds)");
+		if(StaffMode.isStaff(player)) {
+			
+			if(!CollectionsUtil.getSafe().contains(player.getName())) {
+				CollectionsUtil.getSafe().add(player.getName());
+			}
+
+			player.teleport(loc);
+
+			player.sendMessage(ChatColor.GRAY + "Teleported to Spawn");
 			return;
-		}*/
+		}
 		
 		for (Entity p : player.getNearbyEntities(10, 10, 10)) {
 			
@@ -126,11 +135,17 @@ public class SpawnProtectionCommands implements CommandExecutor {
 					
 					if(!faction.getMembers().contains(near.getUniqueId().toString())) {
 						
-						CollectionsUtil.getSpawn().put(player.getName(), 10);
-						
-						player.sendMessage(ChatColor.GRAY + "There are enemy players near you, please don't move or get damaged for 10 seconds!");
-						
-						return;
+						if(player.canSee(near)) {
+							
+							CollectionsUtil.getSpawn().put(player.getName(), 10);
+							
+							player.sendMessage(ChatColor.GRAY + "There are enemy players near you, please don't move or get damaged for 10 seconds!");
+							
+							return;
+						} else {
+							player.sendMessage("Can't see " + near.getName());
+						}
+
 					}
 					
 				} else {

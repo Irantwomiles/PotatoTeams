@@ -49,6 +49,8 @@ public class SpawnProtection implements Listener {
 					player.teleport(loc);
 				}
 			}, 1L);
+			
+			CollectionsUtil.getSafe().add(player.getName());
 
 		}
 
