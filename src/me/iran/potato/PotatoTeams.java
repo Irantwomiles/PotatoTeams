@@ -3,6 +3,19 @@ package me.iran.potato;
 import java.io.File;
 import java.io.IOException;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import me.iran.potato.bottlexp.BottleXP;
 import me.iran.potato.cmd.PlayerFactionCommands;
 import me.iran.potato.economy.SaleManager;
@@ -16,20 +29,13 @@ import me.iran.potato.events.DisconnectEvent;
 import me.iran.potato.events.TeamChatEvent;
 import me.iran.potato.events.TeleportEvents;
 import me.iran.potato.factions.PlayerFactionManager;
-import me.iran.potato.factions.SaveRunnable;
 import me.iran.potato.run.TeleportRunnables;
 import me.iran.potato.salvage.Salvaging;
 import me.iran.potato.spawn.SpawnProtection;
 import me.iran.potato.spawn.SpawnProtectionCommands;
 import me.iran.potato.warps.WarpCommand;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
-
-public class PotatoTeams extends JavaPlugin {
+public class PotatoTeams extends JavaPlugin implements Listener {
 
 	private File file = null;
 	
@@ -191,7 +197,9 @@ public class PotatoTeams extends JavaPlugin {
 		getCommand("deposit").setExecutor(new DepositCommand(this));
 		getCommand("withdraw").setExecutor(new WithdrawCommand(this));
 		getCommand("go").setExecutor(new WarpCommand(this));
-		getCommand("bottle").setExecutor(new BottleXP(this));
+		getCommand("ago").setExecutor(new WarpCommand(this));
+		//getCommand("bottle").setExecutor(new BottleXP(this));
+		
 		/**
 		 * Events
 		 */
@@ -204,6 +212,7 @@ public class PotatoTeams extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new Balance(this), this);
 		Bukkit.getPluginManager().registerEvents(new Salvaging(this), this);
 		Bukkit.getPluginManager().registerEvents(new BottleXP(this), this);
+		Bukkit.getPluginManager().registerEvents(this, this);
 		/**
 		 * Things needed to load
 		 */
@@ -224,9 +233,41 @@ public class PotatoTeams extends JavaPlugin {
 	}
 	
 	public void onDisable() {
-		PlayerFactionManager.getManager().savePlayerFactions();
 		
+		PlayerFactionManager.getManager().savePlayerFactions();
+
 		SaleManager.getManager().saveSales();
+		
+	}
+	
+	@EventHandler
+	public void onAttack(PlayerInteractEvent event) {
+		Player player = event.getPlayer();
+		
+		if(event.getAction() == null) {
+			return;
+		}
+		
+		if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+			if(event.getClickedBlock().getType() == Material.ENDER_CHEST) {
+				event.setCancelled(true);
+				player.sendMessage(ChatColor.RED + "Ender Chests are disabled");
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onPlace(BlockPlaceEvent event) {
+		
+		Player player = event.getPlayer();
+		
+		if(player.getLocation().getWorld().getName().equalsIgnoreCase("world_nether")) {
+			if(player.getLocation().getBlockY() >= 128) {
+				event.setCancelled(true);
+				player.sendMessage(ChatColor.RED + "Can't build above the nether");
+			}
+		}
+		
 	}
 
 }

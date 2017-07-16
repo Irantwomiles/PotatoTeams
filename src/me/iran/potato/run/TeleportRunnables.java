@@ -99,6 +99,10 @@ public class TeleportRunnables extends BukkitRunnable {
 
 					p.teleport(loc);
 
+					if(CollectionsUtil.getCombat().containsKey(p.getName())) {
+						CollectionsUtil.getCombat().remove(p.getName());
+					}
+					
 					p.sendMessage(ChatColor.GRAY + "Teleported to Spawn");
 
 				}
@@ -114,7 +118,7 @@ public class TeleportRunnables extends BukkitRunnable {
 
 					CollectionsUtil.getWarp().remove(p.getName());
 
-					warp.forceTp(p, CollectionsUtil.getWarpName().get(p.getName()));
+					warp.forceTp(p, p.getUniqueId().toString(), CollectionsUtil.getWarpName().get(p.getName()));
 
 					CollectionsUtil.getWarpName().remove(p.getName());
 

@@ -38,6 +38,16 @@ public class AttackPlayerEvent implements Listener {
 			
 			PlayerFaction faction = PlayerFactionManager.getManager().getFactionByPlayer(damager);
 
+			if(CollectionsUtil.getSafe().contains(player.getName()) && CollectionsUtil.getSafe().contains(damager.getName())) {
+				event.setCancelled(true);
+				return;
+			}
+			
+			if(CollectionsUtil.getSafe().contains(player.getName()) && !CollectionsUtil.getSafe().contains(damager.getName())) {
+				event.setCancelled(true);
+				return;
+			}
+			
 			if(faction == null) {
 				CollectionsUtil.getCombat().put(player.getName(), 20);
 				CollectionsUtil.getCombat().put(damager.getName(), 20);
@@ -54,6 +64,7 @@ public class AttackPlayerEvent implements Listener {
 					CollectionsUtil.getCombat().put(damager.getName(), 20);
 				}
 			}
+			
 			
 			/*
 			 * Player hit while teleporting to HQ/Rally

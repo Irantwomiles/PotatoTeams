@@ -30,6 +30,12 @@ public class Warps{
     private SpawnProtection spawn = new SpawnProtection(PotatoTeams.getInstance());
 
     public void createWarp(Player player, String warp, Location loc) {
+
+    	if(warp.equalsIgnoreCase("set") || warp.equalsIgnoreCase("list") || warp.equalsIgnoreCase("remove")) {
+    	     player.sendMessage(ChatColor.RED + "You can't name your warps the following names: set, list, remove");
+    		return;
+    	}
+    	
         file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerInfo", player.getUniqueId().toString() + ".yml");
 
         if(file.exists()) {
@@ -45,9 +51,9 @@ public class Warps{
                 config.createSection("warps." + warp + ".yaw");
                 config.createSection("warps." + warp + ".world");
 
-                config.set("warps." + warp + ".x", loc.getBlockX());
-                config.set("warps." + warp + ".y", loc.getBlockY());
-                config.set("warps." + warp + ".z", loc.getBlockZ());
+                config.set("warps." + warp + ".x", loc.getX());
+                config.set("warps." + warp + ".y", loc.getY());
+                config.set("warps." + warp + ".z", loc.getZ());
                 config.set("warps." + warp + ".pitch", loc.getPitch());
                 config.set("warps." + warp + ".yaw", loc.getYaw());
                 config.set("warps." + warp + ".world", loc.getWorld().getName());
@@ -96,10 +102,9 @@ public class Warps{
 
     }
 
+    public void getWarpNames(Player player, String uuid) {
 
-    public void getWarpNames(Player player) {
-
-        file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerInfo", player.getUniqueId().toString() + ".yml");
+        file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerInfo", uuid + ".yml");
 
         if(file.exists()) {
 
@@ -142,9 +147,9 @@ public class Warps{
 
                 for (String warp : config.getConfigurationSection("warps").getKeys(false)) {
 
-                    int x = config.getInt("warps." + warp + ".x");
-                    int y = config.getInt("warps." + warp + ".y");
-                    int z = config.getInt("warps." + warp + ".z");
+                    double x = config.getDouble("warps." + warp + ".x");
+                    double y = config.getDouble("warps." + warp + ".y");
+                    double z = config.getDouble("warps." + warp + ".z");
 
                     float pitch = config.getFloat("warps." + warp + ".pitch");
                     float yaw = config.getFloat("warps." + warp + ".yaw");
@@ -164,11 +169,11 @@ public class Warps{
         return warps;
     }
 
-    public int warpCount(Player player) {
+    public int warpCount(String uuid) {
 
         int count = 0;
 
-        file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerInfo", player.getUniqueId().toString() + ".yml");
+        file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerInfo", uuid + ".yml");
 
         if(file.exists()) {
 
@@ -203,9 +208,9 @@ public class Warps{
 
             if(config.contains("warps." + warp)) {
 
-                int x = config.getInt("warps." + warp + ".x");
-                int y = config.getInt("warps." + warp + ".y");
-                int z = config.getInt("warps." + warp + ".z");
+            	double x = config.getDouble("warps." + warp + ".x");
+            	double y = config.getDouble("warps." + warp + ".y");
+            	double z = config.getDouble("warps." + warp + ".z");
 
                 float pitch = config.getFloat("warps." + warp + ".pitch");
                 float yaw = config.getFloat("warps." + warp + ".yaw");
@@ -229,21 +234,29 @@ public class Warps{
 
                             if(!faction.getMembers().contains(near.getUniqueId().toString())) {
 
+                            	if(player.canSee(near)) {
+                            		
                                 CollectionsUtil.getWarp().put(player.getName(), 10);
                                 CollectionsUtil.getWarpName().put(player.getName(), warp);
 
                                 player.sendMessage(ChatColor.GRAY + "There are enemy players near you, please don't move or get damaged for 10 seconds!");
 
                                 return;
+                            	}
+                            	
                             }
 
                         } else {
-                            CollectionsUtil.getWarp().put(player.getName(), 10);
-                            CollectionsUtil.getWarpName().put(player.getName(), warp);
+                        	
+                        	if(player.canSee(near)) {
+                        		
+                        		CollectionsUtil.getWarp().put(player.getName(), 10);
+                        		CollectionsUtil.getWarpName().put(player.getName(), warp);
 
-                            player.sendMessage(ChatColor.GRAY + "There are enemy players near you, please don't move or get damaged for 10 seconds!");
+                        		player.sendMessage(ChatColor.GRAY + "There are enemy players near you, please don't move or get damaged for 10 seconds!");
 
-                            return;
+                        		return;
+                        	}
                         }
                     }
                 }
@@ -257,13 +270,12 @@ public class Warps{
         }
     }
 
-    public void forceTp(Player player, String warp) {
-        file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerInfo", player.getUniqueId().toString() + ".yml");
+    public void forceTp(Player player, String uuid, String warp) {
+        file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerInfo", uuid + ".yml");
 
         if(file.exists()) {
 
             YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-
 
             if(config.contains("warps." + warp)) {
 
@@ -287,4 +299,32 @@ public class Warps{
         }
     }
 
+    public void forceDeleteWarp(Player player, String uuid, String warp) {
+
+        file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerInfo", uuid + ".yml");
+
+        if(file.exists()) {
+
+            YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+            if(config.contains("warps." + warp)) {
+
+                config.set("warps." + warp, null);
+
+                try {
+                    config.save(file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                player.sendMessage(ChatColor.GRAY + "Deleted warp " + warp);
+
+            } else {
+                player.sendMessage(ChatColor.RED + "You don't have a warp by that name");
+            }
+
+        }
+
+    }
+    
 }

@@ -405,8 +405,6 @@ public class PlayerFactionManager {
 
 				try {
 					facConfig.save(file);
-
-					System.out.println("saved facConfig");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

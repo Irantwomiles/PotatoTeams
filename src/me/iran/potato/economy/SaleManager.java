@@ -115,6 +115,32 @@ public class SaleManager {
 		
 	}
 	
+	public void deleteSale(Sale sale) {
+
+		file = new File(PotatoTeams.getInstance().getDataFolder(), "economy.yml");
+
+		if (file.exists()) {
+
+			YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+			if (config.contains("economy.id." + sale.getId())) {
+
+				System.out.println(sale.getId());
+
+				config.set("economy.id." + sale.getId(), null);
+
+				try {
+					config.save(file);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				return;
+
+			}
+		}
+	}
+
 	public void updatePlayerSales(Sale sale) {
 
 		file = new File(PotatoTeams.getInstance().getDataFolder(), "economy.yml");
@@ -124,6 +150,8 @@ public class SaleManager {
 			YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 
 			if (config.contains("economy.id." + sale.getId())) {
+				
+				System.out.println(sale.getId());
 				
 				if(sale.getCount() <= 0) {
 
@@ -307,8 +335,14 @@ public class SaleManager {
 			
 			if(price >= cost.get(0)) {
 				
-				Sale sale = getSaleByPrice(cost.get(0));
+				Sale sale = getSaleByPrice(cost.get(0), item);
 			
+				if(sale.getCount() <= 0) {
+					deleteSale(sale);
+					player.sendMessage(ChatColor.RED + "Updated sale! Please try again!");
+					return;
+				}
+				
 				if(amount <= sale.getCount()) {
 
 						OfflinePlayer seller = Bukkit.getOfflinePlayer(UUID.fromString(sale.getSeller()));
@@ -316,6 +350,19 @@ public class SaleManager {
 						if(balance.getBalance(player.getUniqueId().toString()) >= (sale.getPrice() * amount)) {
 							
 							if(amount < sale.getCount()) {
+								
+								int open = 0;
+
+								for(ItemStack it : player.getInventory().getContents()) {
+									if(it == null) {
+										open++;
+									}
+								}
+
+								if(open == 0) {
+									player.sendMessage(ChatColor.RED + "Your inventory is full!");
+									return;
+								}
 								
 								sale.setCount(sale.getCount() - amount);
 								
@@ -339,6 +386,19 @@ public class SaleManager {
 								
 							} else if(amount == sale.getCount()) {
 								
+								int open = 0;
+
+								for(ItemStack it : player.getInventory().getContents()) {
+									if(it == null) {
+										open++;
+									}
+								}
+
+								if(open == 0) {
+									player.sendMessage(ChatColor.RED + "Your inventory is full!");
+									return;
+								}
+								
 								sale.setCount(0);
 								
 								balance.updateBalance(sale.getSeller(), balance.getBalance(sale.getSeller()) + (sale.getPrice() * amount));
@@ -352,7 +412,9 @@ public class SaleManager {
 								
 								player.sendMessage(ChatColor.GRAY + "You have just bought " + amount + " " + item.getType().toString() + " for " + sale.getPrice() + " your new balance is " + balance.getBalance(player.getUniqueId().toString()));
 							
-								updatePlayerSales(sale);
+								//updatePlayerSales(sale);
+								
+								deleteSale(sale);
 								
 								sales.remove(sale);
 								
@@ -391,10 +453,10 @@ public class SaleManager {
 		return s;
 	}
 	
-	public Sale getSaleByPrice(double price) {
+	public Sale getSaleByPrice(double price, ItemStack item) {
 		
 		for(Sale sale : sales) {
-			if(sale.getPrice() == price) {
+			if(sale.getPrice() == price && sale.getItem().getType() == item.getType() && sale.getItem().getData().getData() == item.getData().getData()) {
 				return sale;
 			}
 		}

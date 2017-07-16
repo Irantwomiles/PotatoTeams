@@ -1,12 +1,17 @@
 package me.iran.potato.spawn;
 
-import me.iran.potato.PotatoTeams;
-import me.iran.potato.util.CollectionsUtil;
-import net.md_5.bungee.api.ChatColor;
+import java.io.File;
+import java.util.List;
+
+import javax.print.attribute.standard.Finishings;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.FishHook;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -15,8 +20,9 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
-import java.io.File;
-import java.util.List;
+import me.iran.potato.PotatoTeams;
+import me.iran.potato.util.CollectionsUtil;
+import net.md_5.bungee.api.ChatColor;
 
 public class SpawnProtection implements Listener {
 
@@ -190,6 +196,7 @@ public class SpawnProtection implements Listener {
 		return false;
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onDamager(EntityDamageByEntityEvent event) {
 		
@@ -209,16 +216,86 @@ public class SpawnProtection implements Listener {
 				damager.sendMessage(ChatColor.GRAY + "You no longer have spawn protection");
 				return;
 			}
-			
-			if(CollectionsUtil.getSafe().contains(player.getName()) && CollectionsUtil.getSafe().contains(damager.getName())) {
-				event.setCancelled(true);
-			}
-			
 
-			if(CollectionsUtil.getSafe().contains(player.getName()) && !CollectionsUtil.getSafe().contains(damager.getName())) {
-				event.setCancelled(true);
-			}
 		}
+		
+		if(event.getDamager() instanceof Snowball) {
+
+			Snowball ball = (Snowball) event.getDamager();
+			
+			Player damager = (Player) ball.getShooter();
+			
+			if(event.getEntity() instanceof Player) {
+				
+				Player player = (Player) event.getEntity();
+				
+				if(CollectionsUtil.getSafe().contains(player.getName())) {
+					event.setCancelled(true);
+				}
+				
+				if(!CollectionsUtil.getSafe().contains(player.getName()) && CollectionsUtil.getSafe().contains(damager.getName())) {
+					CollectionsUtil.getSafe().remove(damager.getName());
+					player.sendMessage(ChatColor.GRAY + "You no longer have spawn protection");
+				}
+				
+			}
+			
+		}
+		
+		if(event.getDamager() instanceof Arrow) {
+
+			Arrow arrow = (Arrow) event.getDamager();
+			
+			if(arrow.getShooter() instanceof Player) {
+				
+				Player damager = (Player) arrow.getShooter();
+				
+				if(event.getEntity() instanceof Player) {
+					
+					Player player = (Player) event.getEntity();
+					
+					if(CollectionsUtil.getSafe().contains(player.getName())) {
+						event.setCancelled(true);
+					}
+					
+					if(!CollectionsUtil.getSafe().contains(player.getName()) && CollectionsUtil.getSafe().contains(damager.getName())) {
+						CollectionsUtil.getSafe().remove(damager.getName());
+						damager.sendMessage(ChatColor.GRAY + "You no longer have spawn protection");
+					}
+					
+				}
+				
+			}
+			
+		}
+		
+		if(event.getDamager() instanceof FishHook) {
+
+			FishHook hook = (FishHook) event.getDamager();
+			
+			if(hook.getShooter() instanceof Player) {
+				
+				Player damager = (Player) hook.getShooter();
+				
+				if(event.getEntity() instanceof Player) {
+					
+					Player player = (Player) event.getEntity();
+					
+					if(CollectionsUtil.getSafe().contains(player.getName())) {
+						event.setCancelled(true);
+					}
+					
+					if(!CollectionsUtil.getSafe().contains(player.getName()) && CollectionsUtil.getSafe().contains(damager.getName())) {
+						CollectionsUtil.getSafe().remove(damager.getName());
+						damager.sendMessage(ChatColor.GRAY + "You no longer have spawn protection");
+					}
+					
+				}
+				
+			}
+			
+		}
+		
 		
 	}
 	

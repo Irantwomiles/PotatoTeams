@@ -1,10 +1,5 @@
 package me.iran.potato.cmd;
 
-import me.iran.potato.PotatoTeams;
-import me.iran.potato.factions.PlayerFaction;
-import me.iran.potato.factions.PlayerFactionManager;
-import me.iran.potato.util.CollectionsUtil;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -14,6 +9,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import me.iran.potato.PotatoTeams;
+import me.iran.potato.factions.PlayerFaction;
+import me.iran.potato.factions.PlayerFactionManager;
+import me.iran.potato.spawn.SpawnProtection;
+import me.iran.potato.util.CollectionsUtil;
+
 public class PlayerFactionCommands implements CommandExecutor {
 
 	PotatoTeams plugin;
@@ -22,7 +23,8 @@ public class PlayerFactionCommands implements CommandExecutor {
 		this.plugin = plugin;
 	}
 
-
+	SpawnProtection spawn = new SpawnProtection(PotatoTeams.getInstance());
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		
@@ -133,6 +135,7 @@ public class PlayerFactionCommands implements CommandExecutor {
 					return true;
 				}
 
+				@SuppressWarnings("deprecation")
 				OfflinePlayer pl = Bukkit.getOfflinePlayer(args[1]);
 
 				if(pl == null) {
@@ -149,15 +152,26 @@ public class PlayerFactionCommands implements CommandExecutor {
 			}
 			
 			if(args[0].equalsIgnoreCase("sethq")) {
+				
 				PlayerFactionManager.getManager().setHq(player, player.getLocation());
 			}
 			
 			if(args[0].equalsIgnoreCase("rally") || args[0].equalsIgnoreCase("r")) {
 				
+				if(spawn.isInsideSpawn(player.getLocation())) {
+					player.sendMessage(ChatColor.RED + "Can't go to rally while inside of spawn");
+					return true;
+				}
+				
 				teleportRally(player);
 			}
 			
 			if(args[0].equalsIgnoreCase("hq")) {
+				
+				if(spawn.isInsideSpawn(player.getLocation())) {
+					player.sendMessage(ChatColor.RED + "Can't go to hq while inside of spawn");
+					return true;
+				}
 				
 				teleportHq(player);
 			}

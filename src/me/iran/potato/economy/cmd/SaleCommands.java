@@ -143,6 +143,22 @@ public class SaleCommands implements CommandExecutor {
 					}
 
 					break;
+				case "steak":
+					try {
+						SaleManager.getManager().sellItem(player, Double.parseDouble(args[2]), new ItemStack(Material.COOKED_BEEF, Integer.parseInt(args[0])), Integer.parseInt(args[0]));
+					} catch(Exception e) {
+						player.sendMessage(ChatColor.RED + "/sell <amount> <item> <price>");
+					}
+
+					break;
+				case "netherwart":
+					try {
+						SaleManager.getManager().sellItem(player, Double.parseDouble(args[2]), new ItemStack(Material.NETHER_STALK, Integer.parseInt(args[0])), Integer.parseInt(args[0]));
+					} catch(Exception e) {
+						player.sendMessage(ChatColor.RED + "/sell <amount> <item> <price>");
+					}
+
+					break;
 				case "mooshegg":
 					try {
 						SaleManager.getManager().sellItem(player, Double.parseDouble(args[2]), new ItemStack(Material.MONSTER_EGG, Integer.parseInt(args[0]), (short) 96), Integer.parseInt(args[0]));
@@ -194,15 +210,25 @@ public class SaleCommands implements CommandExecutor {
 			}
 
 
-			if(Integer.parseInt(args[0]) < 1) {
-				player.sendMessage(ChatColor.RED + "The amount that you want to buy must be more than 0");
-				return true;
+			try {
+				if(Integer.parseInt(args[0]) < 1) {
+					player.sendMessage(ChatColor.RED + "The amount that you want to buy must be more than 0");
+					return true;
+				}
+			} catch (Exception e) {
+				player.sendMessage(ChatColor.RED + "/buy <amount> <item> <price>");
 			}
-
-			if(Double.parseDouble(args[2]) < 0) {
-				player.sendMessage(ChatColor.RED + "Can't buy anything with negative gold");
-				return true;
+			
+			
+			try {
+				if(Double.parseDouble(args[2]) < 0) {
+					player.sendMessage(ChatColor.RED + "Can't buy anything with negative gold");
+					return true;
+				}
+			} catch (Exception e) {
+				player.sendMessage(ChatColor.RED + "/buy <amount> <item> <price>");
 			}
+			
 
 			Potion potion = null;
 
@@ -272,6 +298,20 @@ public class SaleCommands implements CommandExecutor {
 						player.sendMessage(ChatColor.RED + "/buy <amount> <item> <price>");
 					}
 					break;
+				case "steak":
+					try {
+						SaleManager.getManager().buyItem(player, new ItemStack(Material.COOKED_BEEF, Integer.parseInt(args[0])), Double.parseDouble(args[2]), Integer.parseInt(args[0]));
+					} catch(Exception e) {
+						player.sendMessage(ChatColor.RED + "/buy <amount> <item> <price>");
+					}
+					break;
+				case "netherwart":
+					try {
+						SaleManager.getManager().buyItem(player, new ItemStack(Material.NETHER_STALK, Integer.parseInt(args[0])), Double.parseDouble(args[2]), Integer.parseInt(args[0]));
+					} catch(Exception e) {
+						player.sendMessage(ChatColor.RED + "/buy <amount> <item> <price>");
+					}
+					break;
 				case "mooshegg":
 					try {
 						SaleManager.getManager().buyItem(player, new ItemStack(Material.MONSTER_EGG, Integer.parseInt(args[0]), (short) 96), Double.parseDouble(args[2]), Integer.parseInt(args[0]));
@@ -312,14 +352,14 @@ public class SaleCommands implements CommandExecutor {
 
                         double price = SaleManager.getManager().getCheapestSale(potion.toItemStack(1));
 
-                        sale = SaleManager.getManager().getSaleByPrice(price);
+                        sale = SaleManager.getManager().getSaleByPrice(price, potion.toItemStack(1));
 
                         player.sendMessage(ChatColor.GOLD + "Item: " + ChatColor.GRAY + "Strength Potion 2" + "\n" +
                                               ChatColor.GOLD + "Stock: " + ChatColor.GRAY + sale.getCount() + "\n" +
                                               ChatColor.GOLD + "Price: " + ChatColor.GRAY + sale.getPrice());
 
                     } catch(Exception e) {
-                        player.sendMessage(ChatColor.RED + "/price <item>");
+                        player.sendMessage(ChatColor.RED + "Couldn't find anything, try again! /price <item>");
                     }
                     break;
                 case "strp":
@@ -329,13 +369,13 @@ public class SaleCommands implements CommandExecutor {
                     try {
                         double price = SaleManager.getManager().getCheapestSale(potion.toItemStack(1));
 
-                        sale = SaleManager.getManager().getSaleByPrice(price);
+                        sale = SaleManager.getManager().getSaleByPrice(price, potion.toItemStack(1));
 
                         player.sendMessage(ChatColor.GOLD + "Item: " + ChatColor.GRAY + "Strength Potion 1" + "\n" +
                                 ChatColor.GOLD + "Stock: " + ChatColor.GRAY + sale.getCount() + "\n" +
                                 ChatColor.GOLD + "Price: " + ChatColor.GRAY + sale.getPrice());
                     } catch(Exception e) {
-                        player.sendMessage(ChatColor.RED + "/price <item>");
+                        player.sendMessage(ChatColor.RED + "Couldn't find anything, try again! /price <item>");
                     }
                     break;
                 case "swp2":
@@ -344,13 +384,13 @@ public class SaleCommands implements CommandExecutor {
                     try {
                         double price = SaleManager.getManager().getCheapestSale(potion.toItemStack(1));
 
-                        sale = SaleManager.getManager().getSaleByPrice(price);
+                        sale = SaleManager.getManager().getSaleByPrice(price, potion.toItemStack(1));
 
                         player.sendMessage(ChatColor.GOLD + "Item: " + ChatColor.GRAY + "Speed Potion 2" + "\n" +
                                 ChatColor.GOLD + "Stock: " + ChatColor.GRAY + sale.getCount() + "\n" +
                                 ChatColor.GOLD + "Price: " + ChatColor.GRAY + sale.getPrice());
                     } catch(Exception e) {
-                        player.sendMessage(ChatColor.RED + "/price <item>");
+                        player.sendMessage(ChatColor.RED + "Couldn't find anything, try again! /price <item>");
                     }
                     break;
                 case "swp":
@@ -360,29 +400,30 @@ public class SaleCommands implements CommandExecutor {
                     try {
                         double price = SaleManager.getManager().getCheapestSale(potion.toItemStack(1));
 
-                        sale = SaleManager.getManager().getSaleByPrice(price);
+                        sale = SaleManager.getManager().getSaleByPrice(price, potion.toItemStack(1));
 
                         player.sendMessage(ChatColor.GOLD + "Item: " + ChatColor.GRAY + "Speed Potion 1" + "\n" +
                                 ChatColor.GOLD + "Stock: " + ChatColor.GRAY + sale.getCount() + "\n" +
                                 ChatColor.GOLD + "Price: " + ChatColor.GRAY + sale.getPrice());
                     } catch(Exception e) {
-                        player.sendMessage(ChatColor.RED + "/price <item>");
+                        player.sendMessage(ChatColor.RED + "Couldn't find anything, try again! /price <item>");
                     }
                     break;
                 case "frp12":
-                    potion = new Potion(PotionType.FIRE_RESISTANCE);
+                    
+                	potion = new Potion(PotionType.FIRE_RESISTANCE);
                     potion.setHasExtendedDuration(true);
 
                     try {
                         double price = SaleManager.getManager().getCheapestSale(potion.toItemStack(1));
 
-                        sale = SaleManager.getManager().getSaleByPrice(price);
+                        sale = SaleManager.getManager().getSaleByPrice(price, potion.toItemStack(1));
 
                         player.sendMessage(ChatColor.GOLD + "Item: " + ChatColor.GRAY + "Fire Res Extended" + "\n" +
                                 ChatColor.GOLD + "Stock: " + ChatColor.GRAY + sale.getCount() + "\n" +
                                 ChatColor.GOLD + "Price: " + ChatColor.GRAY + sale.getPrice());
                     } catch(Exception e) {
-                        player.sendMessage(ChatColor.RED + "/price <item>");
+                        player.sendMessage(ChatColor.RED + "Couldn't find anything, try again! /price <item>");
                     }
                     break;
                 case "dps2":
@@ -392,13 +433,13 @@ public class SaleCommands implements CommandExecutor {
                     try {
                         double price = SaleManager.getManager().getCheapestSale(potion.toItemStack(1));
 
-                        sale = SaleManager.getManager().getSaleByPrice(price);
+                        sale = SaleManager.getManager().getSaleByPrice(price, potion.toItemStack(1));
 
                         player.sendMessage(ChatColor.GOLD + "Item: " + ChatColor.GRAY + "Damage Potion Splash 2" + "\n" +
                                 ChatColor.GOLD + "Stock: " + ChatColor.GRAY + sale.getCount() + "\n" +
                                 ChatColor.GOLD + "Price: " + ChatColor.GRAY + sale.getPrice());
                     } catch(Exception e) {
-                        player.sendMessage(ChatColor.RED + "/price <item>");
+                        player.sendMessage(ChatColor.RED + "Couldn't find anything, try again! /price <item>");
                     }
                     break;
                 case "soup":
@@ -407,13 +448,43 @@ public class SaleCommands implements CommandExecutor {
 
                         double price = SaleManager.getManager().getCheapestSale(item);
 
-                        sale = SaleManager.getManager().getSaleByPrice(price);
+                        sale = SaleManager.getManager().getSaleByPrice(price, item);
 
                         player.sendMessage(ChatColor.GOLD + "Item: " + ChatColor.GRAY + "Mushroom Soup" + "\n" +
                                 ChatColor.GOLD + "Stock: " + ChatColor.GRAY + sale.getCount() + "\n" +
                                 ChatColor.GOLD + "Price: " + ChatColor.GRAY + sale.getPrice());
                     } catch(Exception e) {
-                        player.sendMessage(ChatColor.RED + "/price <item>");
+                        player.sendMessage(ChatColor.RED + "Couldn't find anything, try again! /price <item>");
+                    }
+                    break;
+                case "steak":
+                    try {
+                        ItemStack item = new ItemStack(Material.COOKED_BEEF);
+
+                        double price = SaleManager.getManager().getCheapestSale(item);
+
+                        sale = SaleManager.getManager().getSaleByPrice(price, item);
+
+                        player.sendMessage(ChatColor.GOLD + "Item: " + ChatColor.GRAY + "Steak" + "\n" +
+                                ChatColor.GOLD + "Stock: " + ChatColor.GRAY + sale.getCount() + "\n" +
+                                ChatColor.GOLD + "Price: " + ChatColor.GRAY + sale.getPrice());
+                    } catch(Exception e) {
+                        player.sendMessage(ChatColor.RED + "Couldn't find anything, try again! /price <item>");
+                    }
+                    break;
+                case "netherwart":
+                    try {
+                        ItemStack item = new ItemStack(Material.NETHER_STALK);
+
+                        double price = SaleManager.getManager().getCheapestSale(item);
+
+                        sale = SaleManager.getManager().getSaleByPrice(price, item);
+
+                        player.sendMessage(ChatColor.GOLD + "Item: " + ChatColor.GRAY + "Nether Wart" + "\n" +
+                                ChatColor.GOLD + "Stock: " + ChatColor.GRAY + sale.getCount() + "\n" +
+                                ChatColor.GOLD + "Price: " + ChatColor.GRAY + sale.getPrice());
+                    } catch(Exception e) {
+                        player.sendMessage(ChatColor.RED + "Couldn't find anything, try again! /price <item>");
                     }
                     break;
                 case "mooshegg":
@@ -422,13 +493,13 @@ public class SaleCommands implements CommandExecutor {
 
                         double price = SaleManager.getManager().getCheapestSale(item);
 
-                        sale = SaleManager.getManager().getSaleByPrice(price);
+                        sale = SaleManager.getManager().getSaleByPrice(price, item);
 
                         player.sendMessage(ChatColor.GOLD + "Item: " + ChatColor.GRAY + "Mooshroom Egg" + "\n" +
                                 ChatColor.GOLD + "Stock: " + ChatColor.GRAY + sale.getCount() + "\n" +
                                 ChatColor.GOLD + "Price: " + ChatColor.GRAY + sale.getPrice());
                     } catch(Exception e) {
-                        player.sendMessage(ChatColor.RED + "/price <item>");
+                        player.sendMessage(ChatColor.RED + "Couldn't find anything, try again! /price <item>");
                     }
                     break;
                 default:
@@ -438,13 +509,13 @@ public class SaleCommands implements CommandExecutor {
 
                         double price = SaleManager.getManager().getCheapestSale(item);
 
-                        sale = SaleManager.getManager().getSaleByPrice(price);
+                        sale = SaleManager.getManager().getSaleByPrice(price, item);
 
                         player.sendMessage(ChatColor.GOLD + "Item: " + ChatColor.GRAY + sale.getItem().getType().toString() + "\n" +
                                 ChatColor.GOLD + "Stock: " + ChatColor.GRAY + sale.getCount() + "\n" +
                                 ChatColor.GOLD + "Price: " + ChatColor.GRAY + sale.getPrice());
                     } catch(Exception e) {
-                        player.sendMessage(ChatColor.RED + "/price <item>");
+                        player.sendMessage(ChatColor.RED + "Couldn't find anything, try again! /price <item>");
                     }
 
                     break;

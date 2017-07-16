@@ -142,18 +142,23 @@ public class SpawnProtectionCommands implements CommandExecutor {
 							player.sendMessage(ChatColor.GRAY + "There are enemy players near you, please don't move or get damaged for 10 seconds!");
 							
 							return;
-						} else {
-							player.sendMessage("Can't see " + near.getName());
-						}
+						
+						} 
 
 					}
 					
 				} else {
-					CollectionsUtil.getSpawn().put(player.getName(), 10);
 					
-					player.sendMessage(ChatColor.GRAY + "There are enemy players near you, please don't move or get damaged for 10 seconds!");
-					
-					return;
+					if(player.canSee(near)) {
+						
+						CollectionsUtil.getSpawn().put(player.getName(), 10);
+						
+						player.sendMessage(ChatColor.GRAY + "There are enemy players near you, please don't move or get damaged for 10 seconds!");
+						
+						return;
+						
+					} 
+		
 				}
 			}
 		}
@@ -162,6 +167,10 @@ public class SpawnProtectionCommands implements CommandExecutor {
 			CollectionsUtil.getSafe().add(player.getName());
 		}
 
+		if(CollectionsUtil.getCombat().containsKey(player.getName())) {
+			CollectionsUtil.getCombat().remove(player.getName());
+		}
+		
 		player.teleport(loc);
 
 		player.sendMessage(ChatColor.GRAY + "Teleported to Spawn");
