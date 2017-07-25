@@ -93,7 +93,13 @@ public class PlayerFactionCommands implements CommandExecutor {
 			if(args[0].equalsIgnoreCase("join") || args[0].equalsIgnoreCase("j")) {
 				
 				if(args.length < 3) {
-					PlayerFactionManager.getManager().joinOpenFaction(player, args[1]);
+					
+					try {
+						PlayerFactionManager.getManager().joinOpenFaction(player, args[1]);
+					}catch (Exception e) {
+						player.sendMessage(ChatColor.RED + "/team join <name> <password>");
+					}
+					
 					return true;
 				}
 				

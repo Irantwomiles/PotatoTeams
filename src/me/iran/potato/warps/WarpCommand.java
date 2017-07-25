@@ -54,7 +54,7 @@ public class WarpCommand implements CommandExecutor {
                     return true;
                 }
 
-                if(player.hasPermission("mcsoup.pro")) {
+                if(player.hasPermission("potatoteams.pro")) {
 
                     if(warp.warpCount(player.getUniqueId().toString()) < 25) {
                         warp.createWarp(player, args[1], player.getLocation());
@@ -62,7 +62,7 @@ public class WarpCommand implements CommandExecutor {
                         player.sendMessage(ChatColor.RED + "You have reached your limit of warps.");
                     }
 
-                } else if(player.hasPermission("mcsoup.mvp")) {
+                } else if(player.hasPermission("potatoteams.mvp")) {
 
                     if(warp.warpCount(player.getUniqueId().toString()) < 15) {
                         warp.createWarp(player, args[1], player.getLocation());
@@ -70,7 +70,7 @@ public class WarpCommand implements CommandExecutor {
                         player.sendMessage(ChatColor.RED + "You have reached your limit of warps.");
                     }
 
-                } else if(player.hasPermission("mcsoup.vip")) {
+                } else if(player.hasPermission("potatoteams.vip")) {
 
                     if(warp.warpCount(player.getUniqueId().toString()) < 10) {
                         warp.createWarp(player, args[1], player.getLocation());
@@ -110,7 +110,7 @@ public class WarpCommand implements CommandExecutor {
         
         if(cmd.getName().equalsIgnoreCase("ago")) {
         	
-        	if(!player.hasPermission("defy.staff.admin")) {
+        	if(!player.hasPermission("potatoteams.staff.admin")) {
         		player.sendMessage(ChatColor.RED + ":)");
         		return true;
         	}

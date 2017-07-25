@@ -552,6 +552,8 @@ public class PlayerFactionManager {
 					p.sendMessage(ChatColor.DARK_AQUA + player.getName() + " has joined the team!");
 				}
 			}
+		} else {
+			player.sendMessage(ChatColor.RED + "That team is not open");
 		}
 		
 	}

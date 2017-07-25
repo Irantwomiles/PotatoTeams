@@ -1,7 +1,5 @@
 package me.iran.potato.spawn;
 
-import me.iran.defystaff.DefyStaff;
-import me.iran.defystaff.commands.StaffMode;
 import me.iran.potato.PotatoTeams;
 import me.iran.potato.factions.PlayerFaction;
 import me.iran.potato.factions.PlayerFactionManager;
@@ -111,7 +109,7 @@ public class SpawnProtectionCommands implements CommandExecutor {
 		
 		Location loc = new Location(Bukkit.getWorld(world), x, y, z);
 
-		if(StaffMode.isStaff(player)) {
+		/*if(StaffMode.isStaff(player)) {
 			
 			if(!CollectionsUtil.getSafe().contains(player.getName())) {
 				CollectionsUtil.getSafe().add(player.getName());
@@ -121,7 +119,7 @@ public class SpawnProtectionCommands implements CommandExecutor {
 
 			player.sendMessage(ChatColor.GRAY + "Teleported to Spawn");
 			return;
-		}
+		}*/
 		
 		for (Entity p : player.getNearbyEntities(10, 10, 10)) {
 			
