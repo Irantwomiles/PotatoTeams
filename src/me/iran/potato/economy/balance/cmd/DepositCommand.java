@@ -45,12 +45,22 @@ public class DepositCommand implements CommandExecutor {
 
 				for(ItemStack it : player.getInventory().getContents()) {
 
-					if(it != null && it.getType() == Material.GOLD_INGOT && it.getItemMeta().getDisplayName() == null) {
+					if(it != null && it.getType() == Material.GOLD_INGOT) {
 						stack = stack + it.getAmount();
+						
+						if(it.hasItemMeta()) {
+							it.setItemMeta(null);
+						}
+						
 					}
 
 				}
 
+				if(stack <= 0) {
+					player.sendMessage(ChatColor.RED + "You don't have enough gold");
+					return true;
+				}
+				
 				item.setAmount(stack);
 
 				player.getInventory().removeItem(item);
@@ -82,8 +92,13 @@ public class DepositCommand implements CommandExecutor {
 
 				for(ItemStack it : player.getInventory().getContents()) {
 					
-					if(it != null && it.getType() == Material.GOLD_INGOT && it.getItemMeta().getDisplayName() == null) {
+					if(it != null && it.getType() == Material.GOLD_INGOT) {
 						stack = stack + it.getAmount();
+						
+						if(it.hasItemMeta()) {
+							it.setItemMeta(null);
+						}
+						
 					}
 					
 				}

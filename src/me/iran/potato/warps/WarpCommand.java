@@ -57,7 +57,7 @@ public class WarpCommand implements CommandExecutor {
                 if(player.hasPermission("potatoteams.pro")) {
 
                     if(warp.warpCount(player.getUniqueId().toString()) < 25) {
-                        warp.createWarp(player, args[1], player.getLocation());
+                        warp.createWarp(player, args[1].toLowerCase(), player.getLocation());
                     } else {
                         player.sendMessage(ChatColor.RED + "You have reached your limit of warps.");
                     }
@@ -65,7 +65,7 @@ public class WarpCommand implements CommandExecutor {
                 } else if(player.hasPermission("potatoteams.mvp")) {
 
                     if(warp.warpCount(player.getUniqueId().toString()) < 15) {
-                        warp.createWarp(player, args[1], player.getLocation());
+                        warp.createWarp(player, args[1].toLowerCase(), player.getLocation());
                     } else {
                         player.sendMessage(ChatColor.RED + "You have reached your limit of warps.");
                     }
@@ -73,7 +73,7 @@ public class WarpCommand implements CommandExecutor {
                 } else if(player.hasPermission("potatoteams.vip")) {
 
                     if(warp.warpCount(player.getUniqueId().toString()) < 10) {
-                        warp.createWarp(player, args[1], player.getLocation());
+                        warp.createWarp(player, args[1].toLowerCase(), player.getLocation());
                     } else {
                         player.sendMessage(ChatColor.RED + "You have reached your limit of warps.");
                     }
@@ -81,7 +81,7 @@ public class WarpCommand implements CommandExecutor {
                 } else {
 
                     if(warp.warpCount(player.getUniqueId().toString()) < 5) {
-                        warp.createWarp(player, args[1], player.getLocation());
+                        warp.createWarp(player, args[1].toLowerCase(), player.getLocation());
                     } else {
                         player.sendMessage(ChatColor.RED + "You have reached your limit of warps.");
                     }
@@ -95,11 +95,11 @@ public class WarpCommand implements CommandExecutor {
                     return true;
                 }
 
-                warp.deleteWarp(player, args[1]);
+                warp.deleteWarp(player, args[1].toLowerCase());
             } else {
                 
                 try {
-                    warp.teleportToWarp(player, args[0]);
+                    warp.teleportToWarp(player, args[0].toLowerCase());
                 } catch (Exception e) {
                     player.sendMessage(ChatColor.RED + "/go <name>");
                 }
@@ -149,7 +149,7 @@ public class WarpCommand implements CommandExecutor {
     					return true;
     				}
 
-    				warp.forceTp(player, target.getUniqueId().toString(), args[2]);
+    				warp.forceTp(player, target.getUniqueId().toString(), args[2].toLowerCase());
     				
                 } else if(args[0].equalsIgnoreCase("remove")) {
 
@@ -158,7 +158,7 @@ public class WarpCommand implements CommandExecutor {
     					return true;
     				}
 
-                    warp.forceDeleteWarp(player, target.getUniqueId().toString(), args[2]);
+                    warp.forceDeleteWarp(player, target.getUniqueId().toString(), args[2].toLowerCase());
                     
                 }
             } catch (Exception e) {

@@ -114,17 +114,24 @@ public class Warps{
 
             if(config.contains("warps")) {
 
-                msg = ChatColor.GRAY + "Warps: ";
+                msg = ChatColor.GRAY + "You have no warps.";
 
                 List<String> warps = new ArrayList<>();
 
                 for(String s : config.getConfigurationSection("warps").getKeys(false)) {
                    warps.add(s);
                 }
-
-                for(int i = 0; i < warps.size(); i++) {
-                    msg = msg + warps.get(i) + ", ";
+                
+                if(warps.size() > 0) {
+                	
+                	msg = ChatColor.GRAY + "Warps: ";
+                	
+                    for(int i = 0; i < warps.size(); i++) {
+                        msg = msg + warps.get(i) + " ";
+                    }
                 }
+
+          
 
             }
 

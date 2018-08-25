@@ -222,6 +222,11 @@ public class SaleManager {
 			
 			if(it != null && it.getType() == item.getType() && it.getData().getData() == item.getData().getData()) {
 				stack = stack + it.getAmount();
+				
+				if(it.hasItemMeta()) {
+					it.setItemMeta(null);
+				}
+				
 			}
 			
 		}
@@ -265,6 +270,11 @@ public class SaleManager {
 			
 			if(it != null && it.getType() == item.getType() && it.getData().getData() == item.getData().getData()) {
 				stack = stack + it.getAmount();
+				
+				if(it.hasItemMeta()) {
+					it.setItemMeta(null);
+				}
+				
 			}
 			
 		}
