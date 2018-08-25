@@ -11,9 +11,6 @@ import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.io.File;
 import java.io.IOException;
@@ -178,7 +175,7 @@ public class Warps{
 
     public int warpCount(String uuid) {
 
-        int count = 0;
+       
 
         file = new File(PotatoTeams.getInstance().getDataFolder() + "/PlayerInfo", uuid + ".yml");
 
@@ -188,15 +185,13 @@ public class Warps{
 
             if(config.contains("warps")) {
 
-                for(String w : config.getConfigurationSection("warps").getKeys(false)) {
-                    count++;
-                }
+            	return config.getConfigurationSection("warps").getKeys(false).size();
 
             }
 
         }
 
-        return count;
+        return 0;
     }
 
     public void teleportToWarp(Player player, String warp) {
@@ -269,7 +264,7 @@ public class Warps{
                 }
 
                 player.teleport(loc);
-                player.sendMessage(ChatColor.GRAY + "Teleported to warp");
+                player.sendMessage(ChatColor.GRAY + "Teleported to warp " + warp);
             } else {
                 player.sendMessage(ChatColor.RED + "Couldn't find a warp by the name of " + warp);
             }
